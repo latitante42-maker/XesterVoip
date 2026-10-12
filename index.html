@@ -3,27 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XesterVoip</title>
+<title>XESTER VOIP - Prefissi Verificati Premium</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
-body{background:#0a0a0b;color:#fff}
-#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity 0.8s}
-header{padding:20px 5%;border-bottom:1px solid #222;position:sticky;top:0;background:#0a0a0b;z-index:5}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;padding:30px 5%}
-.card{background:#151517;border:1px solid #222;border-radius:18px;padding:18px}
-.pref{font-size:3rem;font-weight:900;margin:10px 0}
-.btns{display:flex;gap:8px;margin-top:12px}
-.btn{flex:1;padding:12px;border-radius:10px;font-weight:800;border:0}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
+body{background:#070708;color:#fff;overflow-x:hidden}
+#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:hideWelcome 1s forwards;animation-delay:2.8s}
+#welcome h1{font-size:5rem;font-weight:900;letter-spacing:-3px}
+#welcome p{letter-spacing:8px;margin-top:12px;font-weight:700;color:#666}
+@keyframes hideWelcome{0%{opacity:1;transform:scale(1)}100%{opacity:0;visibility:hidden;transform:scale(1.15)}}
+header{padding:18px 5%;border-bottom:1px solid #1c1c20;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(7,7,8,0.92);backdrop-filter:blur(12px);z-index:50}
+.logo{font-weight:900;letter-spacing:-1px;font-size:1.3rem}
+.topbar{display:flex;gap:10px;padding:16px 5%;overflow:auto}
+.topbar input,.topbar select{background:#151519;border:1px solid #26262c;color:#fff;padding:12px 16px;border-radius:12px;min-width:180px;outline:none}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;padding:20px 5% 80px}
+.card{background:linear-gradient(180deg,#17171a,#121214);border:1px solid #232328;border-radius:22px;padding:20px;transition:all .25s}
+.card:hover{border-color:#3a3a44;transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.6)}
+.cardHead{display:flex;justify-content:space-between;align-items:center}
+.badge{background:#00ff88;color:#000;padding:6px 10px;border-radius:20px;font-size:.68rem;font-weight:900;letter-spacing:.5px}
+.country{color:#8a8a92;font-size:.85rem;font-weight:600}
+.pref{font-size:3.4rem;font-weight:900;margin:14px 0;letter-spacing:-2px}
+.meta{color:#6f6f78;font-size:.82rem;line-height:1.5}
+.priceRow{display:flex;justify-content:space-between;align-items:end;margin-top:14px}
+.price{font-size:1.9rem;font-weight:900}
+.oldPrice{color:#555;text-decoration:line-through;font-size:.9rem}
+.btns{display:flex;gap:10px;margin-top:16px}
+.btn{flex:1;padding:14px;border-radius:13px;font-weight:900;border:0;cursor:pointer;letter-spacing:.3px;transition:.15s}
+.btn:active{transform:scale(.96)}
 .buy{background:#fff;color:#000}
-.det{background:#222;color:#fff;border:1px solid #333}
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10000;display:none;align-items:center;justify-content:center;padding:15px}
-#box{background:#151517;border:1px solid #333;border-radius:20px;max-width:650px;width:100%;max-height:85vh;overflow:auto;padding:25px}
+.det{background:#232328;color:#fff;border:1px solid #34343e}
+.buy:hover{background:#eaeaea}
+.det:hover{background:#2c2c35}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100000;display:none;align-items:center;justify-content:center;padding:18px}
+#modalBox{background:#131316;border:1px solid #2a2a32;border-radius:24px;max-width:720px;width:100%;max-height:90vh;overflow:auto;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.8)}
+#modalBox h2{font-size:2rem;font-weight:900}
+#modalBox .subtitle{color:#888;margin-top:6px}
+#modalBox pre{color:#c2c2c9;line-height:1.8;margin-top:18px;font-size:.92rem;white-space:pre-wrap;font-family:Arial;word-wrap:break-word}
+.closeBtn{margin-top:22px;width:100%;padding:14px;background:#fff;color:#000;border:0;border-radius:13px;font-weight:900;cursor:pointer}
+.tagRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.tag{background:#1f1f24;border:1px solid #2d2d35;color:#aaa;padding:6px 10px;border-radius:20px;font-size:.75rem}
+footer{padding:40px 5%;border-top:1px solid #1a1a1e;color:#666;text-align:center;font-size:.8rem}
 </style>
 </head>
 <body>
-<div id="welcome"><h1 style="font-size:4.5rem;font-weight:900">BENVENUTO</h1><p style="letter-spacing:5px;margin-top:8px">XESTER VOIP</p></div>
-<header><b>XESTER VOIP - 4205 PREFISSI VERIFICATI</b></header>
-<div class="grid" id="grid"></div>
-<div id="modal"><div id="box"><h2 id="mt"></h2><p id="md" style="color:#bbb;line-height:1.6;margin-top:12px;white-space:pre-line"></p><button style="margin-top:18px;width:100%;padding:12px;background:#fff;border:0;border-radius:10px;font-weight:800" onclick="document.getElementById('modal').style.display='none'">CHIUDI</button></div></div>
-<script>
-// LISTA PREFISSI - SOL
+<div id="welcome"><h1>BENVENUTO</h1><p>XESTER VO
