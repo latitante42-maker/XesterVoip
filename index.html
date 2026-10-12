@@ -5,36 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>XesterVoip</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 body{background:#0a0a0b;color:#fff}
-#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column}
-header{padding:20px 5%;display:flex;justify-content:space-between;border-bottom:1px solid #222;position:sticky;top:0;background:#0a0a0b}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;padding:30px 5%}
-.card{background:#151517;border:1px solid #222;border-radius:20px;padding:20px}
-.badge{background:#00ff88;color:#000;padding:5px 10px;border-radius:20px;font-size:.7rem;font-weight:800}
-.pref{font-size:3rem;font-weight:900;margin:14px 0}
-.btns{display:flex;gap:10px;margin-top:14px}
-.btn{flex:1;padding:13px;border-radius:12px;font-weight:800;border:none;cursor:pointer}
+#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity 0.8s}
+header{padding:20px 5%;border-bottom:1px solid #222;position:sticky;top:0;background:#0a0a0b;z-index:5}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px;padding:30px 5%}
+.card{background:#151517;border:1px solid #222;border-radius:18px;padding:18px}
+.pref{font-size:3rem;font-weight:900;margin:10px 0}
+.btns{display:flex;gap:8px;margin-top:12px}
+.btn{flex:1;padding:12px;border-radius:10px;font-weight:800;border:0}
 .buy{background:#fff;color:#000}
-.detail{background:#222;color:#fff;border:1px solid #333}
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10000;display:none;align-items:center;justify-content:center;padding:20px}
-#modalBox{background:#151517;border-radius:20px;max-width:650px;width:100%;max-height:85vh;overflow:auto;padding:28px;border:1px solid #333}
+.det{background:#222;color:#fff;border:1px solid #333}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:10000;display:none;align-items:center;justify-content:center;padding:15px}
+#box{background:#151517;border:1px solid #333;border-radius:20px;max-width:650px;width:100%;max-height:85vh;overflow:auto;padding:25px}
 </style>
 </head>
 <body>
-<div id="welcome"><h1 style="font-size:5rem;font-weight:900">BENVENUTO</h1><p style="letter-spacing:4px">XESTER VOIP</p></div>
-<header><b>XESTER VOIP</b><span>4205 PREFISSI</span></header>
+<div id="welcome"><h1 style="font-size:4.5rem;font-weight:900">BENVENUTO</h1><p style="letter-spacing:5px;margin-top:8px">XESTER VOIP</p></div>
+<header><b>XESTER VOIP - 4205 PREFISSI VERIFICATI</b></header>
 <div class="grid" id="grid"></div>
-<div id="modal"><div id="modalBox"><h2 id="mTitle"></h2><p id="mText" style="color:#bbb;line-height:1.7;margin-top:14px;white-space:pre-line"></p><button style="margin-top:20px;width:100%;padding:13px;background:#fff;border:none;border-radius:12px;font-weight:800" onclick="document.getElementById('modal').style.display='none'">CHIUDI</button></div></div>
+<div id="modal"><div id="box"><h2 id="mt"></h2><p id="md" style="color:#bbb;line-height:1.6;margin-top:12px;white-space:pre-line"></p><button style="margin-top:18px;width:100%;padding:12px;background:#fff;border:0;border-radius:10px;font-weight:800" onclick="document.getElementById('modal').style.display='none'">CHIUDI</button></div></div>
 <script>
-const prefixes=[["+39","Italia"],["+44","UK"],["+49","Germania"],["+33","Francia"],["+34","Spagna"],["+1","USA"],["+55","Brasile"],["+91","India"],["+81","Giappone"],["+971","Dubai"]];
-let products=[];
-for(let i=0;i<4205;i++){let p=prefixes[i%prefixes.length];let price=(Math.random()*0.95+0.30).toFixed(2);products.push({id:i,code:p[0],country:p[1],price})}
-function getLongDetails(it){return `DETTAGLI PRODOTTO XESTER VOIP - ${it.code} ${it.country}\n\nID: XV-${10000+it.id}\nPAESE: ${it.country}\nPREFISSO: ${it.code}\nSTATO: VERIFICATO 100%\nPREZZO: €${it.price}\n\nDESCRIZIONE LUNGA:\nPrefisso ${it.code} verificato per ${it.country}. Testato manualmente. Riceve SMS e chiamate. Compatibile con WhatsApp, Telegram, Google, Facebook, Instagram, TikTok, Amazon, PayPal, Uber, Tinder, Binance e tutti i servizi OTP.\n\nCARATTERISTICHE:\n- Attivazione immediata <2 min\n- SMS illimitati 30gg\n- Chiamate vocali\n- Numero pulito mai bannato\n- IP dedicato ${it.country}\n- Garanzia sostituzione\n- Supporto 24/7\n\nCOSA RICEVI:\n1. Prefisso ${it.code}\n2. Pannello XesterVoip\n3. Guida attivazione\n4. Guida anonimo\n5. Supporto dedicato\n\nGARANZIA: Se non riceve SMS in 10 min, sostituzione gratuita immediata.\n\nNOTA: Uso lecito. Vietato spam.`}
-function render(){document.getElementById('grid').innerHTML=products.map(x=>`<div class="card"><span class="badge">VERIFICATO ✓</span><div class="pref">${x.code}</div><div style="color:#888">${x.country} - ID: XV-${10000+x.id}</div><div style="font-size:1.7rem;font-weight:800;margin-top:10px">€${x.price}</div><div class="btns"><button class="btn buy">ACQUISTA</button><button class="btn detail" onclick="openDetail(${x.id})">DETTAGLI</button></div></div>`).join('')}
-function openDetail(id){let it=products.find(p=>p.id===id);document.getElementById('mTitle').innerText=`Prefisso ${it.code} - ${it.country}`;document.getElementById('mText').innerText=getLongDetails(it);document.getElementById('modal').style.display='flex'}
-render();
-setTimeout(()=>{let w=document.getElementById('welcome');w.style.transition='opacity.9s';w.style.opacity='0';setTimeout(()=>w.style.display='none',900)},2500);
-</script>
-</body>
-</html>
+// LISTA PREFISSI - SOL
