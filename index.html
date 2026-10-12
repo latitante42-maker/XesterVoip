@@ -45,9 +45,8 @@ header{padding:14px 4%;display:flex;justify-content:space-between;align-items:ce
 
 <div class="grid" id="grid"></div>
 
-<!-- DETTAGLI LUNGHISSIMI -->
 <div id="detailsOverlay"><div id="detailsSheet">
-<div style="position:sticky;top:0;background:#121215;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2a32;z-index:10"><b style="font-size:1.1rem">📱 SCHEDA PRODOTTO</b><button id="closeDetails" style="background:#23232a;color:#fff;border:1px solid #333;width:40px;height:40px;border-radius:50%;font-weight:900;font-size:1.1rem">X</button></div>
+<div style="position:sticky;top:0;background:#121215;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2a32;z-index:10"><b style="font-size:1.1rem">📱 SCHEDA PRODOTTO</b><button id="closeDetails" style="background:#23232a;color:#fff;border:1px solid #333;width:40px;height:40px;border-radius:50%;font-weight:900">X</button></div>
 <div id="detailsContent" style="padding:22px"></div>
 </div></div>
 
@@ -62,7 +61,7 @@ const BOT_TOKEN="8871567340:AAETSRfITxqdBIeqDhzy8Ib54SVu90TO3Gk";
 const CHAT_ID="8102746350";
 function tgSend(t){return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(t)}`).catch(()=>{});}
 function tgSendPanel(ticketId){
-  let text=`🎛️ PANNELLO AMMINISTRATIVO\nTicket: ${ticketId}`;
+  let text=`🎛️ PANNELLO AMMINISTRATIVO\nTicket: ${ticketId}\nGestisci qui sotto:`;
   let keyboard={inline_keyboard:[[{text:"✅ Reclama Ticket",callback_data:`claim_${ticketId}`}],[{text:"❌ Cancella Ticket",callback_data:`delete_${ticketId}`}]]};
   return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:text,reply_markup:keyboard})}).catch(()=>{});
 }
@@ -85,7 +84,6 @@ document.getElementById('search').addEventListener('input',apply);
 sel.addEventListener('change',apply);
 render(products);
 
-// DETTAGLI LUNGHISSIMI
 window.openDetails=function(uid){
   let p=products.find(a=>a.uid===uid); if(!p) return;
   document.getElementById('detailsContent').innerHTML=`
@@ -95,74 +93,62 @@ window.openDetails=function(uid){
     <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:#23232a;border:1px solid #333;padding:6px 12px;border-radius:20px;font-size:.75rem">ID: ${p.uid}</span><span style="background:#23232a;border:1px solid #333;padding:6px 12px;border-radius:20px;font-size:.75rem">5.0★ 482 vendite</span><span style="background:#122a1b;border:1px solid rgba(0,255,136,.3);color:#00ff88;padding:6px 12px;border-radius:20px;font-size:.75rem">● ONLINE</span></div>
     <div style="margin-top:14px;font-size:2.2rem;font-weight:900">€${p.price} <span style="font-size:.9rem;color:#666;font-weight:400">/ 30 giorni</span></div>
   </div>
-
   <div style="color:#ddd;line-height:1.7;font-size:.95rem">
-
     <h3 style="color:#fff;font-size:1.2rem;margin-bottom:8px">📱 COS'È QUESTO PRODOTTO?</h3>
     <p style="color:#aaa;margin-bottom:18px">Questo è un <b style="color:#fff">numero VOIP reale ${p.country} con prefisso ${p.code}</b> fornito da XESTER VOIP. Non è un numero usa e getta fasullo. È un numero vero che riceve SMS reali in tempo reale tramite pannello web privato. Ideale per verifiche OTP, account secondari, business, privacy.</p>
-
     <div style="background:#1c1c20;border-radius:16px;padding:16px;margin-bottom:18px">
       <b style="color:#00ff88">✅ COMPATIBILITÀ TOTALE TESTATA:</b><br>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
         <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">WhatsApp</span>
         <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Telegram</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Google / Gmail</span>
+        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Google</span>
         <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Facebook</span>
         <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Instagram</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Tinder / Bumble</span>
+        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Tinder</span>
         <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Discord</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Uber / Bolt</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Binance / Crypto</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Amazon</span>
+        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Uber</span>
+        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Binance</span>
         <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">TikTok</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">+ altri 400 servizi</span>
       </div>
     </div>
-
     <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">⚙️ CARATTERISTICHE TECNICHE</h3>
     <div style="background:#1c1c20;border-radius:16px;padding:16px;margin-bottom:18px;line-height:1.9;color:#bbb">
-      - 📡 Tipo: VOIP Non-VoIP (alta reputazione)<br>
+      - 📡 Tipo: VOIP Non-VoIP alta reputazione<br>
       - 🌍 Paese: ${p.country} - Prefisso: ${p.code}<br>
       - ⏱️ Consegna: 2-5 minuti dopo pagamento<br>
       - 📩 SMS: Illimitati per 30 giorni<br>
       - 🔁 Rinnovo: Possibile a €${p.price}<br>
-      - 🔒 Privacy: Nessun dato tuo salvato<br>
-      - 💻 Pannello: Accesso web privato per leggere SMS live<br>
+      - 🔒 Privacy: Nessun dato salvato<br>
+      - 💻 Pannello: Accesso web privato SMS live<br>
       - ♻️ Sostituzione: Gratis se non riceve nei primi 15 min<br>
-      - 📱 Multi-device: Usi il pannello da telefono/PC<br>
-      - 🛡️ Anti-ban: Rotazione IP e alta trust-score
+      - 📱 Multi-device: Pannello da telefono/PC<br>
+      - 🛡️ Anti-ban: Rotazione IP e trust-score alto
     </div>
-
     <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">🚀 COME FUNZIONA? (3 STEP)</h3>
     <div style="background:#1c1c20;border-radius:16px;padding:16px;margin-bottom:18px">
-      <b style="color:#fff">STEP 1 - Acquista:</b> <span style="color:#aaa">Clicchi ACQUISTA, vai su Telegram @crocosupplyita, paghi con Crypto, PayPal, Postepay, Bonifico.</span><br><br>
-      <b style="color:#fff">STEP 2 - Ricevi:</b> <span style="color:#aaa">Ti inviamo in 2 minuti: numero ${p.code}, link pannello SMS, username/password pannello.</span><br><br>
-      <b style="color:#fff">STEP 3 - Usa:</b> <span style="color:#aaa">Inserisci il numero su WhatsApp/Telegram/ecc. L'SMS arriva istantaneo sul pannello, copi il codice e verifichi. Fine.</span>
+      <b style="color:#fff">STEP 1 - Acquista:</b> <span style="color:#aaa">Clicchi ACQUISTA, vai su Telegram @crocosupplyita, paghi Crypto/PayPal/Postepay.</span><br><br>
+      <b style="color:#fff">STEP 2 - Ricevi:</b> <span style="color:#aaa">Ti inviamo in 2 minuti: numero ${p.code}, link pannello SMS, login.</span><br><br>
+      <b style="color:#fff">STEP 3 - Usa:</b> <span style="color:#aaa">Inserisci numero su WhatsApp/ecc, SMS arriva istantaneo sul pannello.</span>
     </div>
-
-    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">💬 RECENSIONI CLIENTI VERIFICATE</h3>
+    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">💬 RECENSIONI VERIFICATE</h3>
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
-      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Marco R. ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Preso Nigeria +234, arrivato in 3 min, verificato WhatsApp al primo colpo. Top."</span></div>
-      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Alex_92 ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Secondo numero che compro, sempre perfetti. Supporto veloce."</span></div>
-      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Sara B. ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Usato per Tinder, funziona alla grande. Consigliato."</span></div>
+      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Marco R. ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Preso Nigeria +234, arrivato in 3 min, verificato WhatsApp al primo colpo."</span></div>
+      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Alex_92 ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Secondo numero che compro, sempre perfetti."</span></div>
+      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Sara B. ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Usato per Tinder, funziona alla grande."</span></div>
     </div>
-
-    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">🛡️ GARANZIA XESTER VOIP</h3>
-    <p style="color:#aaa;margin-bottom:12px">Se il numero non riceve l'OTP nei primi 15 minuti dall'attivazione, <b style="color:#fff">sostituzione immediata gratis</b>. Nessun rimborso dopo uso corretto, ma supporto totale fino a verifica riuscita. Abbiamo venduto oltre 4205 numeri con tasso di successo del 98.7%.</p>
-
+    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">🛡️ GARANZIA XESTER</h3>
+    <p style="color:#aaa;margin-bottom:12px">Se non riceve OTP nei primi 15 minuti, <b style="color:#fff">sostituzione immediata gratis</b>. Supporto fino a verifica riuscita. 4205 numeri venduti, 98.7% successo.</p>
     <div style="background:#2a1a1a;border:1px solid #552; border-radius:12px;padding:14px;color:#ff9a9a;font-size:.85rem;margin-bottom:18px">
-      <b>⚠️ IMPORTANTE - LEGGI:</b><br>
-      - Non usare per spam, truffe o attività illegali.<br>
-      - Alcune piattaforme (WhatsApp) possono bannare numeri VOIP, rischio basso ma esistente.<br>
-      - Ogni numero è privato, solo tu hai accesso al pannello.<br>
-      - Dopo 30 giorni il numero scade se non rinnovi.
+      <b>⚠️ IMPORTANTE:</b><br>
+      - Non usare per spam/truffe/illegale.<br>
+      - WhatsApp può bannare VOIP, rischio basso ma esiste.<br>
+      - Solo tu hai accesso al pannello.<br>
+      - Dopo 30 giorni scade se non rinnovi.
     </div>
-
     <div style="background:#122a1b;border:1px solid rgba(0,255,136,.35);border-radius:14px;padding:14px;color:#c2ffda">
-      <b style="color:#00ff88">💡 CONSIGLIO PRO:</b> Se devi verificare WhatsApp, attiva il numero su un telefono secondario o emulatore. Così eviti ban. Per info chiedi nel ticket.
+      <b style="color:#00ff88">💡 CONSIGLIO PRO:</b> Per WhatsApp usa telefono secondario o emulatore. Chiedi nel ticket per aiuto.
     </div>
   </div>
-
   <div style="position:sticky;bottom:0;background:#121215;padding-top:16px;margin-top:22px;border-top:1px solid #2a2a32">
     <div style="display:flex;gap:10px">
       <button class="btn buy" style="flex:1;padding:18px;font-size:1rem" onclick="window.open('https://t.me/crocosupplyita?text=Ciao%20voglio%20${p.code}%20${p.uid}%20${p.country}','_blank')">ACQUISTA ORA - €${p.price}</button>
@@ -180,7 +166,7 @@ document.getElementById('detailsOverlay').addEventListener('click',e=>{if(e.targ
 let countEl=document.getElementById('welcomeCount'); let barEl=document.getElementById('welcomeBarInner'); let welcomeEl=document.getElementById('welcome'); let c=0;
 let loader=setInterval(()=>{ c+=5; if(c>250)c=250; countEl.innerText=c; barEl.style.width=(c/250*100)+"%"; if(c>=250){ clearInterval(loader); setTimeout(()=>{welcomeEl.style.transition="all.6s ease";welcomeEl.style.opacity="0";welcomeEl.style.transform="translateY(-20px)";setTimeout(()=>{welcomeEl.style.display="none";},600);},400);} },18);
 
-// TICKET
+// TICKET SYSTEM FIX DOPPIO MESSAGGIO + CARD FOTO
 let interval=null,timeout=null,remaining=600,ticketId=null,lastUpdateId=0,poll=null;
 const STORAGE_KEY="xester_current_ticket";
 function getTicketData(id){try{return JSON.parse(localStorage.getItem('ticket_'+id))}catch(e){return null}}
@@ -190,8 +176,12 @@ function addMsg(who,text,cls){let b=document.getElementById('chatBox');let div=d
 function startTimer(){clearInterval(interval);clearTimeout(timeout);interval=setInterval(()=>{remaining--;let m=Math.floor(remaining/60),s=remaining%60;document.getElementById('timer').innerText=`${m}:${String(s).padStart(2,'0')}`;if(remaining<=0){tgSend(`❌ Ticket ${ticketId} cancellato per scadenza`);localStorage.removeItem('ticket_'+ticketId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);}saveTicket();},1000);timeout=setTimeout(()=>{localStorage.removeItem('ticket_'+ticketId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);},remaining*1000);}
 function closeTicket(force){document.getElementById('ticketOverlay').classList.remove('open');clearInterval(interval);clearTimeout(timeout);clearInterval(poll);if(force){if(ticketId)localStorage.removeItem('ticket_'+ticketId);localStorage.removeItem(STORAGE_KEY);document.getElementById('chatBox').innerHTML="";ticketId=null;remaining=600;}else{saveTicket();}}
 async function initLastUpdateId(){try{let res=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`);let data=await res.json();if(data.result&&data.result.length>0){lastUpdateId=data.result[data.result.length-1].update_id;}}catch(e){}}
+
+// FUNZIONE FIXATA - NO DOPPIO MESSAGGIO + FOTO TICKET
 function startPolling(){
-  clearInterval(poll);const processedIds=new Set();
+  clearInterval(poll);
+  const processedIds=new Set();
+  let ticketClaimed=false;
   poll=setInterval(async()=>{
     try{
       let res=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastUpdateId+1}&timeout=1`);
@@ -200,17 +190,27 @@ function startPolling(){
         lastUpdateId=u.update_id;
         if(u.callback_query){
           let cb=u.callback_query;let cdata=cb.data||"";let cbId=cb.id;
+          let tId=cdata.replace('claim_','').replace('delete_','');
+          if(ticketClaimed && cdata.startsWith('claim_')){
+            tgAnswerCallback(cbId,"Già reclamato ✅");
+            continue;
+          }
           if(cdata.startsWith('claim_')){
-            let tId=cdata.replace('claim_','');
-            if(ticketId&&tId===ticketId){
-              addMsg("Moderazione","Uno staff ha preso in gestione il ticket ✅ Un operatore ti risponderà a breve.","moderazione");
+            if(ticketId&&tId===ticketId &&!ticketClaimed){
+              ticketClaimed=true;
+              addMsg("Moderazione","✅ Uno staff ha preso in gestione il tuo ticket. Un operatore ti risponderà a breve. Ticket: "+tId,"moderazione");
+              let chatBox=document.getElementById('chatBox');
+              let ticketCard=document.createElement('div');
+              ticketCard.innerHTML=`<div style="background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;border-radius:16px;padding:14px;margin-top:12px;text-align:center;font-weight:900"><div style="font-size:1.1rem">🎫 TICKET IN GESTIONE</div><div style="font-size:.9rem;margin-top:4px;background:rgba(0,0,0,.15);padding:6px;border-radius:10px">${tId}</div><div style="font-size:.75rem;margin-top:6px;font-weight:600">Staff assegnato - Risposta entro 2 min</div></div>`;
+              chatBox.appendChild(ticketCard);
+              chatBox.scrollTop=chatBox.scrollHeight;
               tgAnswerCallback(cbId,"Ticket reclamato ✅");
-              tgSend(`✅ Ticket ${tId} reclamato - in gestione`);
-              fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,message_id:cb.message.message_id,text:`🎛️ PANNELLO\nTicket: ${tId}\nStato: 🟢 IN GESTIONE`,reply_markup:{inline_keyboard:[[{text:"❌ Cancella Ticket",callback_data:`delete_${tId}`}]]}})}).catch(()=>{});
+              tgSend(`✅ Ticket ${tId} reclamato - IN GESTIONE`);
+              fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,message_id:cb.message.message_id,text:`🎛️ PANNELLO\nTicket: ${tId}\nStato: 🟢 IN GESTIONE DA TE\nCliente ha ricevuto conferma + card`,reply_markup:{inline_keyboard:[[{text:"❌ Cancella Ticket",callback_data:`delete_${tId}`}]]}})}).catch(()=>{});
+              saveTicket();
             }
           }
           if(cdata.startsWith('delete_')){
-            let tId=cdata.replace('delete_','');
             if(ticketId&&tId===ticketId){
               addMsg("Sistema",`Ticket ${tId} cancellato da un amministratore.`,"sistema");
               setTimeout(()=>{localStorage.removeItem('ticket_'+tId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);},1200);
@@ -227,10 +227,12 @@ function startPolling(){
           if(txt.startsWith('/'))continue;
           addMsg("Assistente",txt,"assistente");
         }
-      }saveTicket();
+      }
+      saveTicket();
     }catch(e){}
   },2000);
 }
+
 async function openTicket(){
   let saved=loadCurrentTicket();
   if(saved){ticketId=saved.id;remaining=saved.remaining;lastUpdateId=saved.lastUpdateId||0;document.getElementById('ticketId').innerText=ticketId;document.getElementById('chatBox').innerHTML=saved.html;}
