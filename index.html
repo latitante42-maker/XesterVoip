@@ -1,51 +1,51 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
-<title>XESTER VOIP</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>XESTER VOIP - Premium</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
 body{background:#070708;color:#fff;overflow-x:hidden}
-#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:hide .8s forwards;animation-delay:2.2s}
-@keyframes hide{to{opacity:0;visibility:hidden}}
-header{padding:14px 4%;display:flex;align-items:center;justify-content:space-between;background:#070708;position:sticky;top:0;z-index:100;border-bottom:1px solid #1a1a1f}
-.logo{font-weight:900;font-size:1.3rem;line-height:1.1}
-.sub{color:#666;font-size:.7rem}
-.top-actions{display:flex;gap:8px;align-items:center}
-.ticket-top-btn{background:#00ff88;color:#000;border:0;padding:10px 16px;border-radius:20px;font-weight:900;font-size:.8rem;cursor:pointer;white-space:nowrap;box-shadow:0 0 20px rgba(0,255,136,.4)}
-.search-row{display:flex;gap:8px;padding:12px 4%;position:sticky;top:58px;background:#070708;z-index:99}
-.search-row input,.search-row select{flex:1;background:#151519;border:1px solid #26262c;color:#fff;padding:13px 14px;border-radius:14px;font-size:.85rem}
-#filterCountry{max-width:120px}
-.grid{display:grid;grid-template-columns:1fr;gap:14px;padding:12px 4% 100px}
-@media(min-width:600px){.grid{grid-template-columns:1fr 1fr}}
-.card{background:linear-gradient(180deg,#1a1a1e,#121214);border:1px solid #26262e;border-radius:24px;padding:18px}
-.badge{background:#00ff88;color:#000;padding:6px 12px;border-radius:20px;font-size:.68rem;font-weight:900}
-.pref{font-size:3.2rem;font-weight:900;margin:12px 0;letter-spacing:-2px}
-.priceRow{display:flex;align-items:end;justify-content:space-between}
+#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:hide .7s forwards;animation-delay:2.2s}
+@keyframes hide{to{opacity:0;visibility:hidden;pointer-events:none}}
+header{padding:14px 4%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;background:#070708;border-bottom:1px solid #1e1e24}
+.logo{font-weight:900;font-size:1.25rem;line-height:.95}
+.logo span{color:#666;font-size:.65rem;font-weight:700;display:block;margin-top:3px;letter-spacing:1px}
+.ticket-top-btn{background:#00ff88;color:#000;border:0;padding:11px 18px;border-radius:22px;font-weight:900;font-size:.85rem;cursor:pointer;box-shadow:0 0 18px rgba(0,255,136,.45)}
+.search-row{display:flex;gap:8px;padding:12px 4%;position:sticky;top:60px;background:#070708;z-index:99}
+.search-row input{flex:1;background:#151519;border:1px solid #2a2a32;color:#fff;padding:13px 14px;border-radius:14px;font-size:.9rem}
+.search-row select{background:#151519;border:1px solid #2a2a32;color:#fff;padding:13px 10px;border-radius:14px;font-size:.8rem;max-width:110px}
+.grid{display:grid;grid-template-columns:1fr;gap:14px;padding:14px 4% 100px}
+@media(min-width:650px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:linear-gradient(180deg,#1c1c20,#121214);border:1px solid #2a2a32;border-radius:26px;padding:18px}
+.badge{background:#00ff88;color:#000;padding:6px 11px;border-radius:20px;font-size:.68rem;font-weight:900}
+.pref{font-size:3.3rem;font-weight:900;margin:12px 0;letter-spacing:-2px}
+.priceRow{display:flex;justify-content:space-between;align-items:end;margin-top:8px}
 .btns{display:flex;gap:9px;margin-top:14px}
 .btn{flex:1;padding:14px;border-radius:14px;font-weight:900;border:0;cursor:pointer;font-size:.85rem}
-.buy{background:#fff;color:#000}.det{background:#23232a;color:#fff;border:1px solid #3a3a44}
-
-/* TICKET MOBILE POPUP */
-#ticketOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:end}
+.buy{background:#fff;color:#000}
+.det{background:#23232a;color:#fff;border:1px solid #3a3a44}
+/* TICKET OVERLAY */
+#ticketOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:flex-end}
 #ticketOverlay.open{display:flex}
-#ticketSheet{width:100%;background:#151519;border:1px solid #2a2a32;border-top-left-radius:28px;border-top-right-radius:28px;padding:20px;max-height:85vh;display:flex;flex-direction:column}
-#chatBox{flex:1;overflow:auto;background:#0a0a0b;border:1px solid #222;border-radius:16px;padding:12px;margin-top:12px;min-height:220px}
-.msg{margin-top:10px;padding:10px 12px;border-radius:12px;max-width:85%;font-size:.9rem}.msg-user{background:#232328;margin-left:auto}.msg-admin{background:#122a1b;border:1px solid #00ff8840;color:#c2ffda}
+#ticketSheet{width:100%;background:#151519;border:1px solid #2a2a32;border-top-left-radius:30px;border-top-right-radius:30px;padding:18px 16px;max-height:88vh;display:flex;flex-direction:column}
+#chatBox{flex:1;overflow:auto;background:#0a0a0b;border:1px solid #222;border-radius:16px;padding:12px;margin-top:12px;min-height:280px}
+.msg{margin-top:10px;padding:11px 13px;border-radius:14px;max-width:86%;font-size:.9rem;line-height:1.35}
+.msg-user{background:#232328;margin-left:auto}
+.msg-admin{background:#122a1b;border:1px solid rgba(0,255,136,.25);color:#c2ffda}
 </style>
 </head>
 <body>
-<div id="welcome"><h1 style="font-size:4rem;font-weight:900">BENVENUTO</h1><p style="letter-spacing:6px;color:#666;font-weight:700;margin-top:10px">XESTER VOIP</p></div>
+<div id="welcome"><h1 style="font-size:4.2rem;font-weight:900;letter-spacing:-2px">BENVENUTO</h1><p style="letter-spacing:7px;color:#666;font-weight:800;margin-top:8px;font-size:.8rem">XESTER VOIP PREMIUM</p></div>
 
 <header>
-<div><div class="logo">XESTER<br>VOIP</div><div class="sub">4205 PREFISSI</div></div>
-<div class="top-actions">
+<div class="logo">XESTER VOIP<span id="count">4205 PREFISSI • PREMIUM</span></div>
 <button id="openTicketBtn" class="ticket-top-btn">🎫 TICKET</button>
-</div>
 </header>
 
 <div class="search-row">
-<input id="search" placeholder="Cerca paese, +234...">
+<input id="search" placeholder="Cerca +39, Italia, Nigeria...">
 <select id="filterCountry"><option value="all">Tutti</option></select>
 <select id="sort"><option value="price-asc">€ basso</option><option value="price-desc">€ alto</option></select>
 </div>
@@ -54,41 +54,56 @@ header{padding:14px 4%;display:flex;align-items:center;justify-content:space-bet
 
 <div id="ticketOverlay">
 <div id="ticketSheet">
-<div style="display:flex;justify-content:space-between;align-items:center"><b id="ticketId">XV-...</b><span style="color:#888;font-size:.8rem">Scade tra <b id="timer" style="color:#00ff88">10:00</b></span><button id="closeX" style="background:#222;color:#fff;border:0;width:32px;height:32px;border-radius:50%">X</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div><b id="ticketId">XV-...</b><div style="color:#666;font-size:.7rem;margin-top:2px">@crocosupplyita live</div></div>
+<div style="display:flex;align-items:center;gap:10px"><span style="color:#888;font-size:.8rem">Scade <b id="timer" style="color:#00ff88">10:00</b></span><button id="closeX" style="background:#222;color:#fff;border:0;width:34px;height:34px;border-radius:50%;font-weight:900">X</button></div>
+</div>
 <div id="chatBox"></div>
-<div style="display:flex;gap:8px;margin-top:12px"><input id="chatInput" placeholder="Scrivi a @crocosupplyita..." style="flex:1;padding:14px;border-radius:14px;border:1px solid #333;background:#0a0a0b;color:#fff"><button id="sendBtn" style="padding:14px 18px;background:#00ff88;color:#000;border:0;border-radius:14px;font-weight:900">INVIA</button></div>
-<div style="text-align:center;color:#555;font-size:.7rem;margin-top:8px">Collegato a @XesterTicketBot • Si cancella dopo 10 min</div>
+<div style="display:flex;gap:8px;margin-top:12px">
+<input id="chatInput" placeholder="Scrivi il tuo problema..." style="flex:1;padding:15px;border-radius:14px;border:1px solid #333;background:#0a0a0b;color:#fff;font-size:.9rem">
+<button id="sendBtn" style="padding:15px 20px;background:#00ff88;color:#000;border:0;border-radius:14px;font-weight:900">INVIA</button>
+</div>
+<div style="text-align:center;color:#555;font-size:.65rem;margin-top:8px">Risposte da Telegram @XesterTicketBot arrivano qui • Non si cancella se chiudi</div>
 </div>
 </div>
 
 <script>
-const BOT_TOKEN="8871567340:AAETSRfITxqdBIeqDhzy8Ib54SVu90TO3Gk";const CHAT_ID="8102746350";const TG_USERNAME="crocosupplyita";
-function sendToTelegram(text){fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`).catch(()=>{});}
+// TELEGRAM CONFIG - GIÀ COLLEGATO A TE
+const BOT_TOKEN = "8871567340:AAETSRfITxqdBIeqDhzy8Ib54SVu90TO3Gk";
+const CHAT_ID = "8102746350";
+function sendToTelegram(text){
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`).catch(()=>{});
+}
 
+// PRODOTTI
 const ALL=[["+234","Nigeria"],["+212","Marocco"],["+39","Italia"],["+44","Regno Unito"],["+49","Germania"],["+33","Francia"],["+34","Spagna"],["+351","Portogallo"],["+1","USA"],["+91","India"],["+86","Cina"],["+81","Giappone"],["+55","Brasile"],["+52","Messico"],["+971","Emirati"],["+61","Australia"]];
-let products=[];for(let i=0;i<4205;i++){let p=ALL[i%ALL.length];let price=(0.4+Math.random()*1.2).toFixed(2);let id="XV-"+(10807+i);let sold=Math.floor(50+Math.random()*700);let left=Math.floor(2+Math.random()*10);products.push({id:id,code:p[0],country:p[1],price:price,sold:sold,left:left})}
-let countries=[...new Set(products.map(p=>p.country))].sort();let sel=document.getElementById('filterCountry');countries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
-function render(list){let h="";for(let x of list.slice(0,150)){h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="badge">VERIFICATO ✓ 5.0★</span><span style="color:#888;font-size:.8rem">${x.country}</span></div><div class="pref">${x.code}</div><div style="color:#555;font-size:.75rem">ID: ${x.id} • ${x.sold} venduti • ${x.left} rimasti</div><div class="priceRow" style="margin-top:10px"><div><div style="text-decoration:line-through;color:#555">€${(parseFloat(x.price)*1.9).toFixed(2)}</div><div style="font-size:1.9rem;font-weight:900">€${x.price}</div></div><span style="color:#00ff88;font-weight:900">-48%</span></div><div class="btns"><button class="btn buy" onclick="buy('${x.code}','${x.country}')">ACQUISTA</button><button class="btn det">DETTAGLI</button></div></div>`}document.getElementById('grid').innerHTML=h;}
-function buy(code,country){window.open(`https://t.me/${TG_USERNAME}?text=${encodeURIComponent("Ciao voglio "+code+" "+country)}`,"_blank");}
-function apply(){let q=document.getElementById('search').value.toLowerCase();let fc=sel.value;let f=products.filter(p=>(p.country.toLowerCase().includes(q)||p.code.includes(q))&&(fc==='all'||p.country===fc));render(f);}
-document.getElementById('search').addEventListener('input',apply);sel.addEventListener('change',apply);render(products);
+let products=[];for(let i=0;i<4205;i++){let p=ALL[i%ALL.length];let price=(0.45+Math.random()*1.1).toFixed(2);products.push({uid:"XV-"+(10807+i),code:p[0],country:p[1],price:price,sold:Math.floor(50+Math.random()*700),left:Math.floor(1+Math.random()*9)})}
+let sel=document.getElementById('filterCountry');[...new Set(products.map(p=>p.country))].sort().forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+function render(list){let h="";list.slice(0,150).forEach(x=>{h+=`<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="badge">VERIFICATO ✓ 5.0★</span><span style="color:#777;font-size:.8rem">${x.country}</span></div><div class="pref">${x.code}</div><div style="color:#555;font-size:.72rem">ID: ${x.uid} • ${x.sold} venduti • ${x.left} rimasti</div><div class="priceRow"><div><div style="text-decoration:line-through;color:#444;font-size:.8rem">€${(parseFloat(x.price)*1.9).toFixed(2)}</div><div style="font-size:1.9rem;font-weight:900">€${x.price}</div></div><div style="color:#00ff88;font-weight:900">-48%</div></div><div class="btns"><button class="btn buy" onclick="window.open('https://t.me/crocosupplyita?text=${encodeURIComponent('Ciao voglio '+x.code+' '+x.country)}','_blank')">ACQUISTA</button><button class="btn det">DETTAGLI</button></div></div>`});document.getElementById('grid').innerHTML=h;document.getElementById('count').innerText=list.length+" PREFISSI • PREMIUM";}
+function apply(){let q=document.getElementById('search').value.toLowerCase();let f=sel.value;let sort=document.getElementById('sort').value;let l=products.filter(p=>(p.country.toLowerCase().includes(q)||p.code.includes(q))&&(f==='all'||p.country===f));if(sort==='price-asc')l.sort((a,b)=>parseFloat(a.price)-parseFloat(b.price));if(sort==='price-desc')l.sort((a,b)=>parseFloat(b.price)-parseFloat(a.price));if(sort==='country')l.sort((a,b)=>a.country.localeCompare(b.country));render(l);}
+document.getElementById('search').addEventListener('input',apply);sel.addEventListener('change',apply);document.getElementById('sort').addEventListener('change',apply);render(products);
 
-let interval=null,timeout=null,remaining=600,ticketId=null;
-function addMsg(from,text,admin){let b=document.getElementById('chatBox');let d=document.createElement('div');d.className=admin?'msg msg-admin':'msg msg-user';d.innerHTML=`<b>${from}</b><br>${text}`;b.appendChild(d);b.scrollTop=b.scrollHeight;}
-function closeTicket(){clearInterval(interval);clearTimeout(timeout);document.getElementById('ticketOverlay').classList.remove('open');document.getElementById('chatBox').innerHTML="";remaining=600;ticketId=null;}
+// TICKET SYSTEM - PERSISTENTE, NON SI CANCELLA CHIUDENDO
+let interval=null,timeout=null,remaining=600,ticketId=null,lastUpdateId=0,pollInterval=null;
+function saveState(){try{localStorage.setItem('xester_ticket',JSON.stringify({id:ticketId,remaining:remaining,html:document.getElementById('chatBox').innerHTML,lastUpdateId:lastUpdateId,time:Date.now()}))}catch(e){}}
+function loadState(){try{let d=localStorage.getItem('xester_ticket');if(!d)return null;let o=JSON.parse(d);let passed=Math.floor((Date.now()-o.time)/1000);o.remaining=Math.max(0,o.remaining-passed);return o.remaining>0?o:null}catch(e){return null}}
+function addMsg(from,text,admin){let b=document.getElementById('chatBox');let div=document.createElement('div');div.className=admin?'msg msg-admin':'msg msg-user';div.innerHTML=`<b>${from}</b><br>${text}`;b.appendChild(div);b.scrollTop=b.scrollHeight;saveState();}
+function startTimer(){clearInterval(interval);interval=setInterval(()=>{remaining--;let m=Math.floor(remaining/60);let s=remaining%60;document.getElementById('timer').innerText=`${m}:${String(s).padStart(2,'0')}`;if(remaining<=0){addMsg("Sistema","Ticket scaduto e cancellato.",true);setTimeout(()=>{localStorage.removeItem('xester_ticket');closeTicket(true);},1500);}saveState();},1000);clearTimeout(timeout);timeout=setTimeout(()=>{localStorage.removeItem('xester_ticket');closeTicket(true);},remaining*1000);}
+function startPolling(){clearInterval(pollInterval);pollInterval=setInterval(async()=>{try{let res=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastUpdateId+1}&timeout=1`);let data=await res.json();if(data.result)for(let upd of data.result){lastUpdateId=upd.update_id;if(upd.message && String(upd.message.chat.id)===String(CHAT_ID) && upd.message.text){let txt=upd.message.text;if(txt.startsWith('/')||txt.includes('🎫')||txt.includes('NUOVO TICKET')||txt.includes('Cliente:'))continue;addMsg("Xester Support",txt,true);}}saveState();}catch(e){}},2500);}
+function closeTicket(force){document.getElementById('ticketOverlay').classList.remove('open');clearInterval(interval);clearTimeout(timeout);if(force){document.getElementById('chatBox').innerHTML="";ticketId=null;remaining=600;clearInterval(pollInterval);localStorage.removeItem('xester_ticket');} }
 function openTicket(){
-ticketId="XV-TICKET-"+Math.floor(Math.random()*90000+10000);
-document.getElementById('ticketId').innerText=ticketId;
-document.getElementById('ticketOverlay').classList.add('open');
-addMsg("Sistema",`Ticket ${ticketId} aperto. Collegato a @crocosupplyita.`,true);
-sendToTelegram(`🎫 NUOVO TICKET ${ticketId}\nCliente ha aperto ticket sul sito mobile.`);
-remaining=600;interval=setInterval(()=>{remaining--;let m=Math.floor(remaining/60);let s=remaining%60;document.getElementById('timer').innerText=`${m}:${String(s).padStart(2,'0')}`;if(remaining<=0){addMsg("Sistema","Ticket scaduto.",true);setTimeout(closeTicket,1500);}},1000);timeout=setTimeout(closeTicket,600000);
+  let saved=loadState();
+  if(saved&&saved.id){ticketId=saved.id;remaining=saved.remaining;document.getElementById('ticketId').innerText=ticketId;document.getElementById('chatBox').innerHTML=saved.html;lastUpdateId=saved.lastUpdateId||0;
+  }else{ticketId="XV-TICKET-"+Math.floor(Math.random()*90000+10000);remaining=600;document.getElementById('ticketId').innerText=ticketId;document.getElementById('chatBox').innerHTML="";addMsg("Sistema",`Ticket ${ticketId} aperto. Collegato a @crocosupplyita. Puoi chiudere il popup e riaprirlo, la chat rimane fino a scadenza.`,true);sendToTelegram(`🎫 NUOVO TICKET ${ticketId}\nCliente sul sito XESTER ha aperto ticket. Rispondi qui e gli arriva sul sito.`);}
+  document.getElementById('ticketOverlay').classList.add('open');startTimer();startPolling();saveState();
 }
 document.getElementById('openTicketBtn').onclick=openTicket;
-document.getElementById('closeX').onclick=closeTicket;
-document.getElementById('ticketOverlay').addEventListener('click',e=>{if(e.target.id==='ticketOverlay')closeTicket();});
-document.getElementById('sendBtn').onclick=()=>{let inp=document.getElementById('chatInput');let txt=inp.value.trim();if(!txt)return;addMsg("Tu",txt,false);sendToTelegram(`🎫 ${ticketId}\n👤 ${txt}`);inp.value="";setTimeout(()=>addMsg("Xester Support","Inviato a @crocosupplyita su Telegram ✅",true),500);};
+document.getElementById('closeX').onclick=()=>closeTicket(false);
+document.getElementById('ticketOverlay').addEventListener('click',e=>{if(e.target.id==='ticketOverlay')closeTicket(false);});
+document.getElementById('sendBtn').onclick=()=>{let inp=document.getElementById('chatInput');let txt=inp.value.trim();if(!txt||!ticketId)return;addMsg("Tu",txt,false);sendToTelegram(`🎫 ${ticketId}\n👤 Cliente: ${txt}`);inp.value="";};
 document.getElementById('chatInput').addEventListener('keypress',e=>{if(e.key==='Enter')document.getElementById('sendBtn').click();});
+// Ripristina se c'era già
+let s=loadState();if(s){ticketId=s.id;remaining=s.remaining;lastUpdateId=s.lastUpdateId||0;}
 </script>
 </body>
 </html>
