@@ -1,22 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>XesterVoip</title>
-<link rel="stylesheet" href="style.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0a0a0b;color:#fff}
+#loader{position:fixed;inset:0;background:#000;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#bar{width:80%;max-width:500px;height:6px;background:#222;margin-top:30px;border-radius:10px;overflow:hidden}
+#fill{height:100%;width:0%;background:#fff}
+#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:9998;display:none;align-items:center;justify-content:center;flex-direction:column}
+#welcome h1{font-size:4rem;font-weight:900}
+header{padding:20px 5%;display:flex;justify-content:space-between;border-bottom:1px solid #222;position:sticky;top:0;background:#0a0a0b;z-index:10}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;padding:30px 5%}
+.card{background:#151517;border:1px solid #222;border-radius:18px;padding:18px}
+.badge{font-size:.7rem;background:#00ff88;color:#000;padding:4px 8px;border-radius:20px;font-weight:700}
+.price{font-size:1.6rem;font-weight:800;margin:10px 0}
+.btn{width:100%;background:#fff;color:#000;border:none;padding:12px;border-radius:12px;font-weight:800}
+.filter{padding:20px 5%;display:flex;gap:10px}
+.filter input,.filter select{background:#1a1a1c;border:1px solid #2a2a2e;color:#fff;padding:12px 16px;border-radius:12px}
+</style>
 </head>
 <body>
-<h1>XesterVoip</h1>
-<p>Clicca un membro per vedere il profilo</p>
-
-<div class="member-card" 
-data-name="Xester" 
-data-username="xester" 
-data-photo="https://i.pravatar.cc/150?img=33" 
-data-bio="Fondatore di XesterVoip. VoIP, tech e privacy.">
-<img src="https://i.pravatar.cc/150?img=33"> Xester @xester
-</div>
-
-<script src="script.js"></script>
+<div id="loader"><h1 id="numTxt" style="font-size:5rem">0%</h1><div id="bar"><div id="fill"></div></div><div style="margin-top:15px;color:#888">XESTER VOIP</div></div>
+<div id="welcome"><h1>BENVENUTO</h1></div>
+<header><b>XESTER VOIP</b><span>4205 numeri verificati</span></header>
+<div class="filter"><input id="search" placeholder="Cerca prefisso..."><select id="sort"><option value="price-asc">Prezzo crescente</option><option value="price-desc">Decrescente</option></select></div>
+<div class="grid" id="grid"></div>
+<script>
+const prefixes=[["+39","Italia"],["+44","UK"],["+49","Germania"],["+33","Francia"],["+34","Spagna"],["+1","USA"],["+52","Messico"],["+55","Brasile"],["+351","Portogallo"],["+31","Olanda"],["+41","Svizzera"],["+90","Turchia"],["+971","Dubai"],["+81","Giappone"],["+86","Cina"],["+91","India"],["+61","Australia"]];
+const grid=document.getElementById('grid');let products=[];
+for(let i=0;i<4205;i++){const p=prefixes[i%prefixes.length];const price=(Math.random()*0.95+0.30).toFixed(2);const num=`(${p[0]}) ${Math.floor(Math.random()*900+100)}-${Math.floor(Math.random()*9000+1000)}`;products.push({id:i,prefix:p[0],country:p[1],number:num,price:parseFloat(price)})}
+function render(list){grid.innerHTML=list.map(x=>`<div class="card"><div style="display:flex;justify-content:space-between"><span class="badge">VERIFICATO ✓</span><span style="color:#888">${x.country}</span></div><div style="margin-top:14px;font-size:1.3rem;font-weight:800">${x.number}</div><div style="font-size:.8rem;color:#888;margin:8px 0">Prefisso: <b>${x.prefix}</b><br>Verificato<br>SMS/Voice/WhatsApp<br>ID: XV-${10000+x.id}</div><div class="price">€${x.price.toFixed(2)}</div><button class="btn">ACQUISTA ORA</button></div>`).join('')}
+render(products);
+let perc=0;const txt=document.getElementById('numTxt');const fill=document.getElementById('fill');const loader=document.getElementById('loader');const welcome=document.getElementById('welcome');
+const interval=setInterval(()=>{perc+=0.75;if(perc>150)perc=150;txt.textContent=Math.floor(perc)+'%';fill.style.width=(perc/150*100)+'%';if(perc>=150){clearInterval(interval);loader.style.display='none';welcome.style.display='flex';setTimeout(()=>{welcome.style.opacity='0';welcome.style.transition='0.8s';setTimeout(()=>welcome.style.display='none',800)},1800)}},100);
+</script>
 </body>
 </html>
