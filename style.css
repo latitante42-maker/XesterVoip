@@ -1,0 +1,11 @@
+body{font-family:-apple-system,sans-serif;padding:20px;background:#f5f7fa;color:#111}
+h1{margin-bottom:5px}
+.member-card{background:#fff;padding:14px;border-radius:14px;margin:15px 0;display:flex;align-items:center;gap:12px;box-shadow:0 2px 10px rgba(0,0,0,0.08);cursor:pointer}
+.member-card img{width:52px;height:52px;border-radius:50%;object-fit:cover}
+#profile-modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px)}
+#profile-modal.active{display:flex}
+.profile-card{background:#fff;border-radius:20px;padding:28px;width:90%;max-width:380px;text-align:center}
+.profile-card img{width:110px;height:110px;border-radius:50%;object-fit:cover;margin-bottom:12px}
+.profile-card .username{color:#666;margin:5px 0 12px 0}
+.profile-card .bio{color:#333;line-height:1.5;font-size:14px}
+.profile-card .close-btn{margin-top:18px;background:#000;color:#fff;border:none;padding:10px 20px;border-radius:10px;cursor:pointer}
