@@ -1,133 +1,86 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>XESTER VOIP - Prefissi Verificati Premium</title>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>XESTER VOIP - Premium</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#070708;color:#fff;overflow-x:hidden}
-#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:hideWelcome 1s forwards;animation-delay:2.8s}
-#welcome h1{font-size:5rem;font-weight:900;letter-spacing:-3px}
-#welcome p{letter-spacing:8px;margin-top:12px;font-weight:700;color:#666}
-@keyframes hideWelcome{0%{opacity:1;transform:scale(1)}100%{opacity:0;visibility:hidden;transform:scale(1.15)}}
-header{padding:18px 5%;border-bottom:1px solid #1c1c20;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:rgba(7,7,8,0.92);backdrop-filter:blur(12px);z-index:50}
-.logo{font-weight:900;letter-spacing:-1px;font-size:1.3rem}
-.topbar{display:flex;gap:10px;padding:16px 5%;overflow:auto}
-.topbar input,.topbar select{background:#151519;border:1px solid #26262c;color:#fff;padding:12px 16px;border-radius:12px;min-width:180px;outline:none}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;padding:20px 5% 30px}
-.card{background:linear-gradient(180deg,#17171a,#121214);border:1px solid #232328;border-radius:22px;padding:20px;transition:all.25s}
-.card:hover{border-color:#3a3a44;transform:translateY(-5px)}
-.cardHead{display:flex;justify-content:space-between;align-items:center}
-.badge{background:#00ff88;color:#000;padding:6px 10px;border-radius:20px;font-size:.68rem;font-weight:900}
-.country{color:#8a8a92;font-size:.85rem;font-weight:600}
-.pref{font-size:3.4rem;font-weight:900;margin:14px 0;letter-spacing:-2px}
-.meta{color:#6f6f78;font-size:.82rem}
-.priceRow{display:flex;justify-content:space-between;align-items:end;margin-top:14px}
-.price{font-size:1.9rem;font-weight:900}
-.oldPrice{color:#555;text-decoration:line-through;font-size:.9rem}
-.btns{display:flex;gap:10px;margin-top:16px}
-.btn{flex:1;padding:14px;border-radius:13px;font-weight:900;border:0;cursor:pointer}
-.buy{background:#fff;color:#000}
-.det{background:#232328;color:#fff;border:1px solid #34343e}
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100000;display:none;align-items:center;justify-content:center;padding:18px}
-#modalBox{background:#131316;border:1px solid #2a2a32;border-radius:24px;max-width:720px;width:100%;max-height:90vh;overflow:auto;padding:30px}
-.tagRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.tag{background:#1f1f24;border:1px solid #2d2d35;color:#aaa;padding:6px 10px;border-radius:20px;font-size:.75rem}
-#ticketSection{padding:50px 5%;background:linear-gradient(180deg,#101012,#070708);border-top:1px solid #1c1c20}
+body{background:#070708;color:#fff}
+#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:hide 1s forwards;animation-delay:2.8s}
+#welcome h1{font-size:5rem;font-weight:900;letter-spacing:-3px}#welcome p{letter-spacing:8px;margin-top:12px;font-weight:700;color:#666}
+@keyframes hide{to{opacity:0;visibility:hidden;transform:scale(1.15)}}
+header{padding:18px 5%;border-bottom:1px solid #1c1c20;display:flex;justify-content:space-between;position:sticky;top:0;background:rgba(7,7,8,.92);backdrop-filter:blur(12px);z-index:50}
+.topbar{display:flex;gap:10px;padding:16px 5%;overflow:auto}.topbar input,.topbar select{background:#151519;border:1px solid #26262c;color:#fff;padding:12px 16px;border-radius:12px;min-width:180px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;padding:20px 5%}
+.card{background:linear-gradient(180deg,#17171a,#121214);border:1px solid #232328;border-radius:22px;padding:20px}
+.pref{font-size:3.4rem;font-weight:900;margin:14px 0;letter-spacing:-2px}.btns{display:flex;gap:10px;margin-top:16px}
+.btn{flex:1;padding:14px;border-radius:13px;font-weight:900;border:0;cursor:pointer}.buy{background:#fff;color:#000}.det{background:#232328;color:#fff;border:1px solid #34343e}
+#ticketSection{padding:50px 5%;background:#101012;border-top:1px solid #1c1c20}
 .ticketCard{max-width:700px;background:#151519;border:1px solid #2a2a32;border-radius:22px;padding:24px;margin-top:20px}
 #chatBox{height:320px;overflow:auto;background:#0a0a0b;border:1px solid #222;border-radius:14px;padding:14px;margin-top:14px}
-.msg{margin-top:12px;padding:11px 13px;border-radius:12px;max-width:85%;line-height:1.4}
-.msg-user{background:#232328;color:#fff;margin-left:auto}
-.msg-admin{background:#122a1b;border:1px solid #00ff8833;color:#c2ffda}
-.closeBtn{margin-top:22px;width:100%;padding:14px;background:#fff;color:#000;border:0;border-radius:13px;font-weight:900;cursor:pointer}
-footer{padding:40px 5%;border-top:1px solid #1a1a1e;color:#666;text-align:center;font-size:.8rem}
+.msg{margin-top:12px;padding:11px 13px;border-radius:12px;max-width:85%}.msg-user{background:#232328;margin-left:auto}.msg-admin{background:#122a1b;border:1px solid #00ff8833;color:#c2ffda}
 </style>
 </head>
 <body>
 <div id="welcome"><h1>BENVENUTO</h1><p>XESTER VOIP PREMIUM</p></div>
-<header><div class="logo">XESTER VOIP</div><div style="color:#666;font-size:.85rem"><span id="count">4205</span> PREFISSI ATTIVI • CONSEGNA ISTANTANEA</div></header>
-<div class="topbar"><input id="search" placeholder="Cerca paese, prefisso... es. Italia, +39"><select id="sort"><option value="price-asc">Prezzo: dal più basso</option><option value="price-desc">Prezzo: dal più alto</option><option value="country">Paese: A-Z</option><option value="prefix">Prefisso: Crescente</option></select><select id="filterCountry"><option value="all">Tutti i paesi</option></select></div>
+<header><div style="font-weight:900">XESTER VOIP</div><div style="color:#666;font-size:.85rem"><span id="count">4205</span> PREFISSI</div></header>
+<div class="topbar"><input id="search" placeholder="Cerca paese, prefisso..."><select id="sort"><option value="price-asc">Prezzo basso</option><option value="price-desc">Prezzo alto</option><option value="country">Paese A-Z</option></select><select id="filterCountry"><option value="all">Tutti i paesi</option></select></div>
 <div class="grid" id="grid"></div>
 
-<!-- TICKET COLLEGATO A @crocosupplyita -->
 <div id="ticketSection">
-<h2 style="font-size:2.3rem;font-weight:900">🎫 TICKET ASSISTENZA LIVE</h2>
-<p style="color:#888;margin-top:10px">Assistenza diretta con @crocosupplyita - Ticket auto-cancellato dopo 10 min per privacy.</p>
-<button id="openTicketBtn" style="margin-top:18px;padding:15px 26px;background:#00ff88;color:#000;border:0;border-radius:13px;font-weight:900;cursor:pointer">+ APRI TICKET CON @crocosupplyita</button>
-
+<h2 style="font-size:2.3rem;font-weight:900">🎫 TICKET LIVE - @crocosupplyita</h2>
+<p style="color:#888;margin-top:8px">Collegato a Telegram @XesterTicketBot - Si cancella dopo 10 min</p>
+<button id="openTicketBtn" style="margin-top:18px;padding:15px 26px;background:#00ff88;color:#000;border:0;border-radius:13px;font-weight:900;cursor:pointer">+ APRI TICKET</button>
 <div id="ticketArea" style="display:none" class="ticketCard">
-<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
-<b id="ticketId">Ticket #</b>
-<div><span style="color:#888;font-size:.8rem">Cancellazione tra:</span> <span id="ticketTimer" style="color:#00ff88;font-weight:900;margin-left:6px">10:00</span></div>
-</div>
+<div style="display:flex;justify-content:space-between"><b id="ticketId"></b><span>Scade tra <b id="timer" style="color:#00ff88">10:00</b></span></div>
 <div id="chatBox"></div>
-<div style="display:flex;gap:10px;margin-top:14px">
-<input id="chatInput" placeholder="Scrivi il tuo problema..." style="flex:1;padding:13px;border-radius:12px;border:1px solid #333;background:#0a0a0b;color:#fff;outline:none">
-<button id="sendBtn" style="padding:13px 20px;background:#fff;color:#000;border:0;border-radius:12px;font-weight:900;cursor:pointer">INVIA</button>
-</div>
-<div style="display:flex;gap:10px;margin-top:12px">
-<button id="goTelegram" style="flex:1;padding:12px;background:#229ED9;color:#fff;border:0;border-radius:12px;font-weight:800;cursor:pointer">💬 CONTINUA SU TELEGRAM @crocosupplyita</button>
-<button id="closeTicketBtn" style="padding:12px 16px;background:#222;color:#fff;border:1px solid #333;border-radius:12px;cursor:pointer">X</button>
-</div>
-<p style="color:#555;font-size:.72rem;margin-top:10px">Ticket criptato, si elimina dopo 10 min. Nessun dato salvato.</p>
+<div style="display:flex;gap:10px;margin-top:14px"><input id="chatInput" placeholder="Scrivi..." style="flex:1;padding:13px;border-radius:12px;border:1px solid #333;background:#0a0a0b;color:#fff"><button id="sendBtn" style="padding:13px 20px;background:#fff;color:#000;border:0;border-radius:12px;font-weight:900">INVIA</button></div>
+<button id="closeBtn" style="margin-top:10px;width:100%;padding:12px;background:#222;color:#fff;border:1px solid #333;border-radius:12px">Chiudi ticket</button>
 </div>
 </div>
-
-<div id="modal"><div id="modalBox"><h2 id="mTitle"></h2><div id="mSub" style="color:#888;margin-top:6px"></div><div class="tagRow" id="mTags"></div><pre id="mText" style="color:#c2c2c9;line-height:1.8;margin-top:18px;font-size:.92rem;white-space:pre-wrap;font-family:Arial"></pre><button class="closeBtn" onclick="document.getElementById('modal').style.display='none'">CHIUDI</button></div></div>
-<footer>XESTER VOIP © 2026 - @crocosupplyita su Telegram • Garanzia 100%</footer>
 
 <script>
-const TELEGRAM_USER="crocosupplyita";
-const ALL_PREFIXES=[["+39","Italia"],["+44","Regno Unito"],["+49","Germania"],["+33","Francia"],["+34","Spagna"],["+351","Portogallo"],["+31","Olanda"],["+32","Belgio"],["+41","Svizzera"],["+43","Austria"],["+45","Danimarca"],["+46","Svezia"],["+47","Norvegia"],["+48","Polonia"],["+40","Romania"],["+36","Ungheria"],["+420","Repubblica Ceca"],["+353","Irlanda"],["+30","Grecia"],["+90","Turchia"],["+380","Ucraina"],["+7","Russia"],["+373","Moldavia"],["+381","Serbia"],["+385","Croazia"],["+386","Slovenia"],["+355","Albania"],["+356","Malta"],["+357","Cipro"],["+352","Lussemburgo"],["+1","USA"],["+1","Canada"],["+52","Messico"],["+55","Brasile"],["+54","Argentina"],["+56","Cile"],["+57","Colombia"],["+51","Perù"],["+58","Venezuela"],["+593","Ecuador"],["+595","Paraguay"],["+598","Uruguay"],["+591","Bolivia"],["+971","Emirati Arabi"],["+966","Arabia Saudita"],["+974","Qatar"],["+973","Bahrain"],["+965","Kuwait"],["+968","Oman"],["+972","Israele"],["+90","Turchia"],["+994","Azerbaigian"],["+81","Giappone"],["+82","Corea del Sud"],["+86","Cina"],["+91","India"],["+92","Pakistan"],["+880","Bangladesh"],["+84","Vietnam"],["+66","Thailandia"],["+60","Malesia"],["+65","Singapore"],["+63","Filippine"],["+62","Indonesia"],["+61","Australia"],["+64","Nuova Zelanda"],["+27","Sud Africa"],["+234","Nigeria"],["+212","Marocco"],["+216","Tunisia"],["+213","Algeria"],["+20","Egitto"],["+254","Kenya"],["+233","Ghana"]];
-let products=[];for(let i=0;i<4205;i++){let p=ALL_PREFIXES[i%ALL_PREFIXES.length];let base=0.30+Math.random()*0.95;products.push({id:i,code:p[0],country:p[1],price:base.toFixed(2),oldPrice:(base*1.9).toFixed(2),stock:Math.floor(Math.random()*15+2),sales:Math.floor(Math.random()*800+50),rating:(4.6+Math.random()*0.4).toFixed(1)})}
-let countries=[...new Set(products.map(p=>p.country))].sort();let sel=document.getElementById('filterCountry');countries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
-function buildDetails(o){return `ID: XV-${10000+o.id}\nPaese: ${o.country}\nPrefisso: ${o.code}\nPrezzo: €${o.price}\nStock: ${o.stock} rimasti - ${o.sales} venduti\n\nPrefisso ${o.code} ${o.country} verificato, SIM reale, testato WhatsApp Telegram Google ecc. IP dedicato ${o.country}. Garanzia 10min sostituzione. Attivazione 90sec.`;}
-function render(list){let h="";for(let x of list){h+=`<div class="card"><div class="cardHead"><span class="badge">VERIFICATO ✓ ${x.rating}★</span><span class="country">${x.country}</span></div><div class="pref">${x.code}</div><div class="meta">ID: XV-${10000+x.id} • ${x.sales} venduti • ${x.stock} rimasti</div><div class="priceRow"><div><div class="oldPrice">€${x.oldPrice}</div><div class="price">€${x.price}</div></div><div style="color:#00ff88;font-size:.8rem;font-weight:800">-48%</div></div><div class="btns"><button class="btn buy" onclick="buyNow('${x.code}','${x.country}','${x.price}')">ACQUISTA</button><button class="btn det" onclick="openDet(${x.id})">DETTAGLI</button></div></div>`}document.getElementById('grid').innerHTML=h;document.getElementById('count').innerText=list.length;}
-function openDet(id){let o=products.find(p=>p.id===id);document.getElementById('mTitle').innerText=`Prefisso ${o.code} - ${o.country}`;document.getElementById('mSub').innerText=`ID: XV-${10000+o.id} • €${o.price}`;document.getElementById('mTags').innerHTML=`<span class="tag">SMS Illimitati</span><span class="tag">IP ${o.country}</span><span class="tag">Garanzia</span>`;document.getElementById('mText').innerText=buildDetails(o);document.getElementById('modal').style.display='flex';}
-function buyNow(code,country,price){let msg=`Ciao @crocosupplyita, voglio acquistare ${code} ${country} a €${price}`;window.open(`https://t.me/${TELEGRAM_USER}?text=${encodeURIComponent(msg)}`,"_blank");}
-function applyFilters(){let q=document.getElementById('search').value.toLowerCase();let fc=document.getElementById('filterCountry').value;let sort=document.getElementById('sort').value;let f=products.filter(p=>{let ms=p.country.toLowerCase().includes(q)||p.code.includes(q);let mc=fc==='all'||p.country===fc;return ms&&mc;});if(sort==='price-asc')f.sort((a,b)=>parseFloat(a.price)-parseFloat(b.price));if(sort==='price-desc')f.sort((a,b)=>parseFloat(b.price)-parseFloat(a.price));if(sort==='country')f.sort((a,b)=>a.country.localeCompare(b.country));render(f);}
-document.getElementById('search').addEventListener('input',applyFilters);document.getElementById('sort').addEventListener('change',applyFilters);document.getElementById('filterCountry').addEventListener('change',applyFilters);render(products);
+// CONFIG TELEGRAM - GIÀ COLLEGATO A TE
+const BOT_TOKEN = "8871567340:AAETSRfITxqdBIeqDhzy8Ib54SVu90TO3Gk";
+const CHAT_ID = "8102746350";
+const TG_USERNAME = "crocosupplyita";
 
-// TICKET LOGIC + TELEGRAM @crocosupplyita
-let ticketInterval=null, ticketTimeout=null, remaining=600, currentTicketId=null;
-function addMsg(from,text,isAdmin=false){
-  let box=document.getElementById('chatBox');let div=document.createElement('div');div.className=isAdmin?'msg msg-admin':'msg msg-user';
-  div.innerHTML=`<b>${from}</b><br>${text}<div style="font-size:.7rem;opacity:.6;margin-top:4px">${new Date().toLocaleTimeString('it-IT')}</div>`;
-  box.appendChild(div);box.scrollTop=box.scrollHeight;
+function sendToTelegram(text){
+  fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(text)}`)
+  .then(r=>console.log("Telegram inviato")).catch(e=>console.log(e));
+  // fallback apre anche t.me se vuoi
 }
-function deleteTicket(){
-  clearInterval(ticketInterval);clearTimeout(ticketTimeout);
-  document.getElementById('ticketArea').style.display='none';
-  document.getElementById('chatBox').innerHTML="";remaining=600;currentTicketId=null;
-  localStorage.removeItem('xester_active_ticket');
-}
+
+const ALL=[["+39","Italia"],["+44","Regno Unito"],["+49","Germania"],["+33","Francia"],["+34","Spagna"],["+351","Portogallo"],["+31","Olanda"],["+32","Belgio"],["+41","Svizzera"],["+43","Austria"],["+1","USA"],["+1","Canada"],["+52","Messico"],["+55","Brasile"],["+971","Emirati"],["+81","Giappone"],["+86","Cina"],["+91","India"],["+61","Australia"]];
+let products=[];for(let i=0;i<4205;i++){let p=ALL[i%ALL.length];let b=0.3+Math.random()*0.9;products.push({id:i,code:p[0],country:p[1],price:b.toFixed(2)})}
+let countries=[...new Set(products.map(p=>p.country))].sort();let sel=document.getElementById('filterCountry');countries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+function render(list){let h="";for(let x of list.slice(0,200)){h+=`<div class="card"><div style="display:flex;justify-content:space-between"><span style="background:#00ff88;color:#000;padding:5px 9px;border-radius:20px;font-size:.7rem;font-weight:900">VERIFICATO</span><span style="color:#888">${x.country}</span></div><div class="pref">${x.code}</div><div style="display:flex;justify-content:space-between;margin-top:10px"><span style="font-size:1.8rem;font-weight:900">€${x.price}</span><span style="color:#00ff88">-48%</span></div><div class="btns"><button class="btn buy" onclick="buy('${x.code}','${x.country}')">ACQUISTA</button><button class="btn det">DETTAGLI</button></div></div>`}document.getElementById('grid').innerHTML=h;document.getElementById('count').innerText=list.length;}
+function buy(code,country){let m=`Ciao voglio ${code} ${country}`;window.open(`https://t.me/${TG_USERNAME}?text=${encodeURIComponent(m)}`,"_blank");}
+function apply(){let q=document.getElementById('search').value.toLowerCase();let fc=document.getElementById('filterCountry').value;let f=products.filter(p=>(p.country.toLowerCase().includes(q)||p.code.includes(q))&&(fc==='all'||p.country===fc));render(f);}
+document.getElementById('search').addEventListener('input',apply);document.getElementById('filterCountry').addEventListener('change',apply);render(products);
+
+// TICKET
+let interval=null, timeout=null, remaining=600, ticketId=null;
+function addMsg(from,text,admin){let b=document.getElementById('chatBox');let d=document.createElement('div');d.className=admin?'msg msg-admin':'msg msg-user';d.innerHTML=`<b>${from}</b><br>${text}`;b.appendChild(d);b.scrollTop=b.scrollHeight;}
+function closeTicket(){clearInterval(interval);clearTimeout(timeout);document.getElementById('ticketArea').style.display='none';document.getElementById('chatBox').innerHTML="";remaining=600;ticketId=null;}
 document.getElementById('openTicketBtn').onclick=()=>{
-  currentTicketId="XV-TICKET-"+Math.floor(Math.random()*90000+10000);
-  document.getElementById('ticketId').innerText=currentTicketId;
+  ticketId="XV-TICKET-"+Math.floor(Math.random()*90000+10000);
+  document.getElementById('ticketId').innerText=ticketId;
   document.getElementById('ticketArea').style.display='block';
-  document.getElementById('chatBox').innerHTML="";
-  addMsg("Sistema",`Ticket ${currentTicketId} aperto. Collegato a @crocosupplyita. Scrivi il problema, ti rispondiamo live. Auto-cancellazione in 10 min.`,true);
-  remaining=600;
-  ticketInterval=setInterval(()=>{remaining--;let m=Math.floor(remaining/60);let s=remaining%60;document.getElementById('ticketTimer').innerText=`${m}:${String(s).padStart(2,'0')}`;if(remaining<=0){addMsg("Sistema","Ticket scaduto e cancellato per privacy.",true);setTimeout(deleteTicket,2000);}},1000);
-  ticketTimeout=setTimeout(deleteTicket,600000);
-  localStorage.setItem('xester_active_ticket', JSON.stringify({id:currentTicketId,start:Date.now()}));
+  addMsg("Sistema",`Ticket ${ticketId} aperto. Collegato a @crocosupplyita via @XesterTicketBot. Scrivi pure.`,true);
+  sendToTelegram(`🎫 NUOVO TICKET APERTO\nID: ${ticketId}\nCliente sul sito XESTER VOIP ha aperto un ticket. In attesa di messaggio...`);
+  remaining=600;interval=setInterval(()=>{remaining--;let m=Math.floor(remaining/60);let s=remaining%60;document.getElementById('timer').innerText=`${m}:${String(s).padStart(2,'0')}`;if(remaining<=0){addMsg("Sistema","Ticket scaduto e cancellato.",true);setTimeout(closeTicket,1500);}},1000);
+  timeout=setTimeout(closeTicket,600000);
 };
 document.getElementById('sendBtn').onclick=()=>{
-  let inp=document.getElementById('chatInput');let txt=inp.value.trim();if(!txt) return;
+  let inp=document.getElementById('chatInput');let txt=inp.value.trim();if(!txt)return;
   addMsg("Tu",txt,false);
-  // INVIA SU TELEGRAM @crocosupplyita
-  let tgMsg=`🎫 NUOVO TICKET ${currentTicketId}\n\nMessaggio cliente: ${txt}\n\nRispondi qui: t.me/${TELEGRAM_USER}`;
-  window.open(`https://t.me/${TELEGRAM_USER}?text=${encodeURIComponent(tgMsg)}`,"_blank");
+  sendToTelegram(`🎫 TICKET ${ticketId}\n👤 Cliente: ${txt}\n\nRispondi su Telegram a @crocosupplyita o scrivi al cliente sul sito.`);
   inp.value="";
-  setTimeout(()=>{addMsg("Xester Support","Messaggio inoltrato a @crocosupplyita su Telegram. Ti rispondiamo a breve lì. Il ticket scadrà tra "+document.getElementById('ticketTimer').innerText,true);},800);
+  setTimeout(()=>addMsg("Xester Support","Messaggio inviato a @crocosupplyita su Telegram ✅ Ti rispondiamo lì.",true),600);
 };
-document.getElementById('goTelegram').onclick=()=>{
-  let msg=`Ciao, ho aperto il ticket ${currentTicketId} sul sito XESTER VOIP, ho bisogno di assistenza`;
-  window.open(`https://t.me/${TELEGRAM_USER}?text=${encodeURIComponent(msg)}`,"_blank");
-};
-document.getElementById('chatInput').addEventListener('keypress',(e)=>{if(e.key==='Enter') document.getElementById('sendBtn').click();});
-document.getElementById('closeTicketBtn').onclick=deleteTicket;
+document.getElementById('closeBtn').onclick=closeTicket;
+document.getElementById('chatInput').addEventListener('keypress',e=>{if(e.key==='Enter')document.getElementById('sendBtn').click();});
 </script>
 </body>
 </html>
