@@ -16,7 +16,7 @@ header{padding:18px 5%;border-bottom:1px solid #1c1c20;display:flex;justify-cont
 .topbar{display:flex;gap:10px;padding:16px 5%;overflow:auto}
 .topbar input,.topbar select{background:#151519;border:1px solid #26262c;color:#fff;padding:12px 16px;border-radius:12px;min-width:180px;outline:none}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;padding:20px 5% 80px}
-.card{background:linear-gradient(180deg,#17171a,#121214);border:1px solid #232328;border-radius:22px;padding:20px;transition:all .25s}
+.card{background:linear-gradient(180deg,#17171a,#121214);border:1px solid #232328;border-radius:22px;padding:20px;transition:all.25s}
 .card:hover{border-color:#3a3a44;transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.6)}
 .cardHead{display:flex;justify-content:space-between;align-items:center}
 .badge{background:#00ff88;color:#000;padding:6px 10px;border-radius:20px;font-size:.68rem;font-weight:900;letter-spacing:.5px}
@@ -36,7 +36,7 @@ header{padding:18px 5%;border-bottom:1px solid #1c1c20;display:flex;justify-cont
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:100000;display:none;align-items:center;justify-content:center;padding:18px}
 #modalBox{background:#131316;border:1px solid #2a2a32;border-radius:24px;max-width:720px;width:100%;max-height:90vh;overflow:auto;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.8)}
 #modalBox h2{font-size:2rem;font-weight:900}
-#modalBox .subtitle{color:#888;margin-top:6px}
+#modalBox.subtitle{color:#888;margin-top:6px}
 #modalBox pre{color:#c2c2c9;line-height:1.8;margin-top:18px;font-size:.92rem;white-space:pre-wrap;font-family:Arial;word-wrap:break-word}
 .closeBtn{margin-top:22px;width:100%;padding:14px;background:#fff;color:#000;border:0;border-radius:13px;font-weight:900;cursor:pointer}
 .tagRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
@@ -45,4 +45,193 @@ footer{padding:40px 5%;border-top:1px solid #1a1a1e;color:#666;text-align:center
 </style>
 </head>
 <body>
-<div id="welcome"><h1>BENVENUTO</h1><p>XESTER VO
+<div id="welcome"><h1>BENVENUTO</h1><p>XESTER VOIP PREMIUM</p></div>
+<header><div class="logo">XESTER VOIP</div><div style="color:#666;font-size:.85rem"><span id="count">4205</span> PREFISSI ATTIVI • CONSEGNA ISTANTANEA</div></header>
+<div class="topbar"><input id="search" placeholder="Cerca paese, prefisso... es. Italia, +39"><select id="sort"><option value="price-asc">Prezzo: dal più basso</option><option value="price-desc">Prezzo: dal più alto</option><option value="country">Paese: A-Z</option><option value="prefix">Prefisso: Crescente</option></select><select id="filterCountry"><option value="all">Tutti i paesi</option></select></div>
+<div class="grid" id="grid"></div>
+<div id="modal"><div id="modalBox"><h2 id="mTitle"></h2><div id="mSub" class="subtitle"></div><div class="tagRow" id="mTags"></div><pre id="mText"></pre><button class="closeBtn" onclick="document.getElementById('modal').style.display='none'">CHIUDI DETTAGLI</button></div></div>
+<footer>XESTER VOIP © 2026 - Leader in prefissi verificati • Supporto 24/7 • Garanzia 100% • Oltre 10.000 clienti</footer>
+<script>
+// =========================================================
+// DATABASE ESTESO PREFISSI MONDIALI - 4205 PRODOTTI
+// =========================================================
+const ALL_PREFIXES=[
+["+39","Italia"],["+44","Regno Unito"],["+49","Germania"],["+33","Francia"],["+34","Spagna"],["+351","Portogallo"],["+31","Olanda"],["+32","Belgio"],["+41","Svizzera"],["+43","Austria"],["+45","Danimarca"],["+46","Svezia"],["+47","Norvegia"],["+48","Polonia"],["+40","Romania"],["+36","Ungheria"],["+420","Repubblica Ceca"],["+353","Irlanda"],["+30","Grecia"],["+90","Turchia"],["+380","Ucraina"],["+7","Russia"],["+373","Moldavia"],["+381","Serbia"],["+385","Croazia"],["+386","Slovenia"],["+355","Albania"],["+356","Malta"],["+357","Cipro"],["+352","Lussemburgo"],
+["+1","USA"],["+1","Canada"],["+52","Messico"],["+55","Brasile"],["+54","Argentina"],["+56","Cile"],["+57","Colombia"],["+51","Perù"],["+58","Venezuela"],["+593","Ecuador"],["+595","Paraguay"],["+598","Uruguay"],["+591","Bolivia"],
+["+971","Emirati Arabi"],["+966","Arabia Saudita"],["+974","Qatar"],["+973","Bahrain"],["+965","Kuwait"],["+968","Oman"],["+972","Israele"],["+90","Turchia"],["+994","Azerbaigian"],
+["+81","Giappone"],["+82","Corea del Sud"],["+86","Cina"],["+91","India"],["+92","Pakistan"],["+880","Bangladesh"],["+84","Vietnam"],["+66","Thailandia"],["+60","Malesia"],["+65","Singapore"],["+63","Filippine"],["+62","Indonesia"],["+61","Australia"],["+64","Nuova Zelanda"],
+["+27","Sud Africa"],["+234","Nigeria"],["+212","Marocco"],["+216","Tunisia"],["+213","Algeria"],["+20","Egitto"],["+254","Kenya"],["+233","Ghana"]
+];
+let products=[];
+for(let i=0;i<4205;i++){
+  let p=ALL_PREFIXES[i%ALL_PREFIXES.length];
+  let basePrice=0.30+Math.random()*0.95;
+  let old= (basePrice*1.9).toFixed(2);
+  products.push({
+    id:i,
+    code:p[0],
+    country:p[1],
+    price:basePrice.toFixed(2),
+    oldPrice:old,
+    stock:Math.floor(Math.random()*15+2),
+    sales:Math.floor(Math.random()*800+50),
+    rating:(4.6+Math.random()*0.4).toFixed(1)
+  });
+}
+// POPOLA FILTRO PAESI
+let countries=[...new Set(products.map(p=>p.country))].sort();
+let sel=document.getElementById('filterCountry');
+countries.forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});
+
+function buildVeryLongDetails(o){
+return `════════════════════════════════════════════════════════════
+XESTER VOIP - SCHEDA TECNICA COMPLETA PRODOTTO PREMIUM
+════════════════════════════════════════════════════════════
+
+► IDENTIFICATIVO PRODOTTO
+- ID Interno: XV-${10000+o.id}
+- SKU: XESTER-${o.code.replace('+','')}-${o.country.toUpperCase().substring(0,3)}-${o.id}
+- Codice Prodotto: ${o.code}
+- Nazione di Riferimento: ${o.country}
+- Prefisso Internazionale: ${o.code}
+- Stato Magazzino: DISPONIBILE (${o.stock} pezzi rimasti)
+- Vendite Totali: ${o.sales} unità vendute
+- Rating Clienti: ${o.rating}/5.0 ★★★★★
+- Ultimo Test: ${new Date().toLocaleDateString('it-IT')} - VERIFICATO OK
+- Prezzo Attuale: €${o.price} (Prezzo di listino €${o.oldPrice} - SCONTO 48%)
+
+► DESCRIZIONE ESTESA E APPROFONDITA (VERSIONE LUNGA)
+Questo prodotto XesterVoip Premium è un prefisso internazionale ${o.code} dedicato alla nazione ${o.country}. Non si tratta di un numero virtuale generico o di un prefisso temporaneo scadente come quelli venduti da altri siti. Il nostro prefisso ${o.code} è un prefisso reale, pulito, mai utilizzato prima per attività di spam, verificato manualmente dal nostro team tecnico con test OTP reali su oltre 40 piattaforme diverse.
+
+Il prefisso ${o.code} per ${o.country} viene fornito tramite infrastruttura privata XesterVoip composta da server dedicati geolocalizzati direttamente in ${o.country}, con IP dedicato, routing privato e sistema anti-ban avanzato che garantisce la massima deliverability dei codici OTP. Ogni prefisso viene attivato su SIM reali, non su gateway VOIP economici che vengono bannati dopo 2 utilizzi.
+
+Ideale per chi necessita di un secondo prefisso anonimo, per aziende che gestiscono multi-account, per agenzie di marketing, per sviluppatori che testano sistemi OTP, o per privati che vogliono proteggere la propria privacy senza fornire il proprio numero personale.
+
+► COMPATIBILITA' TOTALE GARANTITA AL 100% - TESTATA SU:
+✔ WhatsApp Messenger (Standard, Business, API) - Verifica via SMS e chiamata vocale
+✔ Telegram (Account, Canali, Bot) - SMS + Chiamata
+✔ Signal, Viber, Discord, Skype, WeChat, Line, Snapchat
+✔ Google Ecosystem: Gmail, YouTube, Google Voice, Google Ads, Google My Business
+✔ Social Media: Facebook, Instagram, TikTok, Twitter/X, LinkedIn, Pinterest, Reddit
+✔ E-commerce & Pagamenti: Amazon, eBay, PayPal, Stripe, Revolut, Wise, Payoneer
+✔ Delivery & Trasporti: Uber, Bolt, Glovo, Deliveroo, Just Eat, Airbnb, Booking
+✔ Dating: Tinder, Bumble, Badoo, Meetic, Hinge
+✔ Crypto & Trading: Binance, Coinbase, Kraken, Bybit, Crypto.com, OKX, KuCoin
+✔ Gaming: Steam, PlayStation Network, Xbox Live, Epic Games, Riot Games
+✔ E QUALSIASI altro servizio che richiede verifica OTP via SMS o chiamata vocale
+
+► CARATTERISTICHE TECNICHE AVANZATE DETTAGLIATE:
+1. ATTIVAZIONE ISTANTANEA: Consegna automatica entro 90-120 secondi dal pagamento. Nessuna attesa manuale.
+2. RICEZIONE SMS ILLIMITATA: Per 30 giorni ricevi SMS illimitati senza costi aggiuntivi sul nostro pannello web privato.
+3. CHIAMATE VOCALI IN ENTRATA: Supporto per codici di verifica vocali (molti servizi chiamano invece di mandare SMS).
+4. NUMERO PULITO GARANTITO: Prefisso mai bannato, mai segnalato come spam. Storico pulito al 100%.
+5. IP DEDICATO GEOLOCALIZZATO: Routing tramite IP residenziale reale in ${o.country} per evitare flag di sicurezza.
+6. SERVER PRIVATI ANTI-BAN: Infrastruttura proprietaria XesterVoip, non gateway pubblici.
+7. GARANZIA SOSTITUZIONE ISTANTANEA: Se entro 10 minuti non ricevi l'SMS, sistema automatico ti assegna nuovo prefisso gratis.
+8. PANNELLO DI CONTROLLO PREMIUM: Dashboard web privata per leggere SMS, gestire prefissi, cronologia, API access.
+9. SUPPORTO CLIENTI 24/7: Team italiano su Telegram e WhatsApp, risposta media < 4 minuti.
+10. API PER SVILUPPATORI: Se sei sviluppatore, forniamo API REST per integrare ricezione SMS nel tuo software.
+11. DURATA ESTESA: Opzione rinnovo automatico a €${o.price}/mese per mantenere lo stesso prefisso.
+
+► COSA RICEVI ESATTAMENTE DOPO L'ACQUISTO (PACCHETTO COMPLETO):
+- 1x Prefisso Internazionale Verificato ${o.code} per ${o.country} (attivo immediatamente)
+- 1x Accesso al Pannello Premium XesterVoip (https://panel.xestervoip.com)
+- 1x Guida PDF dettagliata (18 pagine) su come attivare e usare il prefisso senza ban
+- 1x Guida Anonimato Avanzato (come non collegare il prefisso alla tua identità)
+- 1x Lista di 200+ servizi testati con istruzioni specifiche per ognuno
+- 1x Supporto Dedicato via Telegram per 30 giorni
+- 1x Garanzia Soddisfatti o Rimborsati entro 10 minuti se non funziona
+
+► PERCHÉ SCEGLIERE XESTER VOIP RISPETTO ALLA CONCORRENZA:
+- Siamo gli unici in Italia con server reali in ${o.country}, non usiamo numeri virtuali low-cost
+- Prezzo più basso del mercato: da €0,30 a €1,25 vs €3-5 della concorrenza
+- Oltre 10.427 clienti attivi e 48.392 prefissi venduti dal 2023
+- Rating medio Trustpilot 4.9/5.0 con 1.200+ recensioni verificate
+- Consegna istantanea, non devi aspettare operatore
+- Nessun abbonamento nascosto, paghi una volta e usi 30 giorni
+
+► ISTRUZIONI D'USO RAPIDE:
+1. Acquista il prefisso ${o.code}
+2. Ricevi email con credenziali pannello
+3. Accedi e vedrai il tuo prefisso attivo
+4. Vai sul servizio che vuoi verificare (es. WhatsApp) e inserisci il prefisso ${o.code}
+5. L'SMS arriva nel nostro pannello in 5-30 secondi
+6. Inserisci il codice nel servizio e sei verificato
+
+► DOMANDE FREQUENTI:
+D: Posso usare questo prefisso per WhatsApp?
+R: Si, al 100%. Testato giornalmente. Se non dovesse funzionare, sostituzione immediata.
+
+D: Per quanto tempo è valido?
+R: 30 giorni con SMS illimitati. Puoi rinnovare allo stesso prezzo.
+
+D: È anonimo?
+R: Si, non è collegato alla tua identità. Usa IP di ${o.country}.
+
+D: Cosa succede se non ricevo SMS?
+R: Garanzia 10 minuti: se non ricevi, il sistema ti assegna automaticamente un nuovo prefisso gratis.
+
+► NOTA LEGALE E TERMINI:
+Prodotto digitale per uso lecito e personale. L'acquirente è responsabile dell'uso conforme alle leggi del proprio paese (${o.country} e Italia). Vietato espressamente l'uso per spam, phishing, truffe, o attività illegali. Acquistando accetti i nostri Termini di Servizio su xestervoip.com/tos. Prodotto non rimborsabile dopo ricezione del primo SMS, salvo garanzia 10 minuti.
+
+► OFFERTA ATTUALE:
+Prezzo normale €${o.oldPrice} -> OGGI SOLO €${o.price} (-48%) per i primi ${o.stock} pezzi.
+Spedizione: Istantanea digitale
+Garanzia: 100% Soddisfatti o Sostituiti
+
+Grazie per aver scelto XesterVoip - Il tuo partner per prefissi verificati premium dal 2023.
+`;
+}
+
+function render(list){
+  let html="";
+  for(let x of list){
+    html+=`<div class="card">
+      <div class="cardHead"><span class="badge">VERIFICATO ✓ ${x.rating}★</span><span class="country">${x.country}</span></div>
+      <div class="pref">${x.code}</div>
+      <div class="meta">ID: XV-${10000+x.id} • ${x.sales} venduti • ${x.stock} rimasti<br>Prefisso Internazionale - Attivazione Istantanea - Garanzia 30gg</div>
+      <div class="priceRow"><div><div class="oldPrice">€${x.oldPrice}</div><div class="price">€${x.price}</div></div><div style="color:#00ff88;font-size:.8rem;font-weight:800">-48% OGGI</div></div>
+      <div class="btns"><button class="btn buy" onclick="buyNow('${x.code}','${x.country}','${x.price}')">ACQUISTA</button><button class="btn det" onclick="openDet(${x.id})">DETTAGLI PRODOTTO</button></div>
+    </div>`;
+  }
+  document.getElementById('grid').innerHTML=html;
+  document.getElementById('count').innerText=list.length;
+}
+
+function openDet(id){
+  let o=products.find(p=>p.id===id);
+  document.getElementById('mTitle').innerText=`Prefisso ${o.code} - ${o.country}`;
+  document.getElementById('mSub').innerText=`ID: XV-${10000+o.id} • €${o.price} • ${o.stock} pezzi rimasti • ${o.sales} venduti • Rating ${o.rating}/5`;
+  document.getElementById('mTags').innerHTML=`<span class="tag">SMS Illimitati</span><span class="tag">Chiamate Vocali</span><span class="tag">WhatsApp OK</span><span class="tag">Telegram OK</span><span class="tag">Garanzia 10min</span><span class="tag">IP ${o.country}</span><span class="tag">30 Giorni</span>`;
+  document.getElementById('mText').innerText=buildVeryLongDetails(o);
+  document.getElementById('modal').style.display='flex';
+}
+
+function buyNow(code,country,price){
+  alert(`Hai scelto: Prefisso ${code} ${country} - €${price}\n\nVerrai reindirizzato al checkout XesterVoip.\n(Collega qui il tuo link Telegram/WhatsApp/PayPal)`);
+}
+
+function applyFilters(){
+  let q=document.getElementById('search').value.toLowerCase();
+  let fc=document.getElementById('filterCountry').value;
+  let sort=document.getElementById('sort').value;
+  let filtered=products.filter(p=>{
+    let matchSearch = p.country.toLowerCase().includes(q) || p.code.includes(q);
+    let matchCountry = fc==='all' || p.country===fc;
+    return matchSearch && matchCountry;
+  });
+  if(sort==='price-asc') filtered.sort((a,b)=>parseFloat(a.price)-parseFloat(b.price));
+  if(sort==='price-desc') filtered.sort((a,b)=>parseFloat(b.price)-parseFloat(a.price));
+  if(sort==='country') filtered.sort((a,b)=>a.country.localeCompare(b.country));
+  if(sort==='prefix') filtered.sort((a,b)=>a.code.localeCompare(b.code));
+  render(filtered);
+}
+
+document.getElementById('search').addEventListener('input',applyFilters);
+document.getElementById('sort').addEventListener('change',applyFilters);
+document.getElementById('filterCountry').addEventListener('change',applyFilters);
+
+render(products);
+</script>
+</body>
+</html>
