@@ -8,15 +8,15 @@ function tgSendPanel(ticketId){
 }
 function tgAnswerCallback(id,text){fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery?callback_query_id=${id}&text=${encodeURIComponent(text)}`).catch(()=>{});}
 
-const ALL=[["+234","Nigeria"],["+212","Marocco"],["+39","Italia"],["+44","UK"],["+49","Germania"],["+33","Francia"],["+1","USA"],["+91","India"]];
-let products=[];for(let i=0;i<4205;i++){let p=ALL[i%ALL.length];products.push({uid:"XV-"+(10807+i),code:p[0],country:p[1],price:(0.5+Math.random()).toFixed(2)})}
+const ALL=[["+234","Nigeria"],["+212","Marocco"],["+39","Italia"],["+44","UK"],["+49","Germania"],["+33","Francia"],["+1","USA"],["+91","India"],["+34","Spagna"],["+351","Portogallo"]];
+let products=[];for(let i=0;i<4205;i++){let p=ALL[i%ALL.length];products.push({uid:"XV-"+(10807+i),code:p[0],country:p[1],price:(0.5+Math.random()*2.5).toFixed(2),compat:"WhatsApp, Telegram, Google, Facebook, Tinder, Discord"})}
 let sel=document.getElementById('filterCountry');
 if(sel){[...new Set(products.map(p=>p.country))].sort().forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o)});}
 
 function render(list){
   let h="";
   list.slice(0,120).forEach(x=>{
-    h+=`<div class="card"><div style="display:flex;justify-content:space-between"><span class="badge">VERIFICATO ✓ 5.0★</span><span style="color:#777">${x.country}</span></div><div class="pref">${x.code}</div><div style="color:#555;font-size:.72rem">ID: ${x.uid}</div><div style="margin-top:8px;font-size:1.8rem;font-weight:900">€${x.price}</div><div class="btns"><button class="btn buy" onclick="window.open('https://t.me/crocosupplyita?text=Ciao%20voglio%20${x.code}','_blank')">ACQUISTA</button><button class="btn det">DETTAGLI</button></div></div>`
+    h+=`<div class="card"><div style="display:flex;justify-content:space-between"><span class="badge">VERIFICATO ✓ 5.0★</span><span style="color:#777">${x.country}</span></div><div class="pref">${x.code}</div><div style="color:#555;font-size:.72rem">ID: ${x.uid}</div><div style="margin-top:8px;font-size:1.8rem;font-weight:900">€${x.price}</div><div class="btns"><button class="btn buy" onclick="window.open('https://t.me/crocosupplyita?text=Ciao%20voglio%20${x.code}','_blank')">ACQUISTA</button><button class="btn det" onclick="openDetails('${x.uid}')">DETTAGLI</button></div></div>`
   });
   document.getElementById('grid').innerHTML=h;
 }
@@ -25,7 +25,50 @@ document.getElementById('search').addEventListener('input',apply);
 if(sel) sel.addEventListener('change',apply);
 render(products);
 
-// TICKET
+// FUNZIONE DETTAGLI LUNGA COME PRIMA
+window.openDetails=function(uid){
+  let p=products.find(a=>a.uid===uid);
+  if(!p) return;
+  let html=`
+    <div style="background:#1c1c20;border:1px solid #2a2a32;border-radius:18px;padding:16px;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between"><span class="badge">VERIFICATO ✓</span><span style="color:#00ff88;font-weight:900">${p.country} ${p.code}</span></div>
+      <div style="font-size:3rem;font-weight:900;margin:10px 0">${p.code}</div>
+      <div style="color:#888;font-size:.8rem">ID: ${p.uid} | Prezzo: €${p.price}</div>
+    </div>
+    <div style="color:#ccc;line-height:1.6;font-size:.92rem">
+      <b style="color:#fff;font-size:1.1rem">📱 NUMERO VOIP PREMIUM XESTER</b><br><br>
+      <b style="color:#00ff88">✓ COMPATIBILITÀ GARANTITA:</b><br>
+      ${p.compat}<br>Tutti i servizi OTP supportati, ricezione SMS istantanea.<br><br>
+      <b style="color:#00ff88">✓ CARATTERISTICHE:</b><br>
+      • Numero reale non virtuale<br>
+      • Attivazione in 2-3 minuti dopo pagamento<br>
+      • Durata 30 giorni con possibilità di rinnovo<br>
+      • Nessun limite di ricezione SMS<br>
+      • Supporto 24/7 su Telegram<br>
+      • Sostituzione gratuita se non funziona all'attivazione<br><br>
+      <b style="color:#00ff88">✓ COME FUNZIONA:</b><br>
+      1. Clicca ACQUISTA e contatta su Telegram<br>
+      2. Pagamento tramite Crypto / PayPal / Postepay<br>
+      3. Ricevi numero + accesso pannello web per SMS<br>
+      4. Usa il numero dove vuoi, gli SMS arrivano live<br><br>
+      <b style="color:#00ff88">✓ GARANZIE XESTER:</b><br>
+      Tutti i numeri sono testati prima della consegna. Se il numero non riceve OTP nei primi 10 minuti, te ne diamo un altro gratis. Nessun rimborso dopo attivazione, ma assistenza totale.<br><br>
+      <div style="background:#122a1b;border:1px solid rgba(0,255,136,.3);padding:12px;border-radius:12px;color:#c2ffda">
+      ⚠️ NOTA: Non usare per attività illegali. Uso consentito solo per verifiche personali. Xester non è responsabile di ban su piattaforme terze.
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn buy" style="flex:1;padding:16px" onclick="window.open('https://t.me/crocosupplyita?text=Voglio%20${p.code}%20${p.uid}','_blank')">ACQUISTA ORA €${p.price}</button>
+    </div>
+  `;
+  document.getElementById('detailsContent').innerHTML=html;
+  document.getElementById('detailsOverlay').classList.add('open');
+}
+
+document.getElementById('closeDetails').onclick=()=>document.getElementById('detailsOverlay').classList.remove('open');
+document.getElementById('detailsOverlay').addEventListener('click',e=>{if(e.target.id==='detailsOverlay')document.getElementById('detailsOverlay').classList.remove('open');});
+
+// TICKET SYSTEM CON PANNELLO
 let interval=null,timeout=null,remaining=600,ticketId=null,lastUpdateId=0,poll=null;
 const STORAGE_KEY="xester_current_ticket";
 function getTicketData(id){try{return JSON.parse(localStorage.getItem('ticket_'+id))}catch(e){return null}}
@@ -47,11 +90,11 @@ function startPolling(){
           let cb=u.callback_query;let cdata=cb.data||"";let cbId=cb.id;
           if(cdata.startsWith('claim_')){
             let tId=cdata.replace('claim_','');
-            if(ticketId&&tId===ticketId){addMsg("Moderazione","Uno staff ha preso in gestione il ticket ✅","moderazione");tgAnswerCallback(cbId,"Reclamato ✅");tgSend(`✅ Ticket ${tId} reclamato`);}
+            if(ticketId&&tId===ticketId){addMsg("Moderazione","Uno staff ha preso in gestione il ticket ✅ Un operatore ti risponderà a breve.","moderazione");tgAnswerCallback(cbId,"Ticket reclamato ✅");tgSend(`✅ Ticket ${tId} reclamato da te`);}
           }
           if(cdata.startsWith('delete_')){
             let tId=cdata.replace('delete_','');
-            if(ticketId&&tId===ticketId){addMsg("Sistema",`Ticket ${tId} cancellato da admin.`,"sistema");setTimeout(()=>{localStorage.removeItem('ticket_'+tId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);},1200);tgAnswerCallback(cbId,"Cancellato ❌");tgSend(`❌ Ticket ${tId} cancellato`);}
+            if(ticketId&&tId===ticketId){addMsg("Sistema",`Ticket ${tId} cancellato da un amministratore.`,"sistema");setTimeout(()=>{localStorage.removeItem('ticket_'+tId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);},1200);tgAnswerCallback(cbId,"Ticket cancellato ❌");tgSend(`❌ Ticket ${tId} cancellato da pannello`);}
           }
           continue;
         }
