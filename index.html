@@ -1,249 +1,54 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>XESTER VOIP</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,Arial,sans-serif}
-body{background:#070708;color:#fff;overflow-x:hidden}
-#welcome{position:fixed;inset:0;background:#fff;color:#000;z-index:999999;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#welcome h1{font-size:4.5rem;font-weight:900;letter-spacing:-3px;line-height:.9}
-#welcome p{letter-spacing:8px;color:#666;font-weight:800;margin-top:8px;font-size:.8rem}
-#welcomeCount{font-size:6rem;font-weight:900;margin-top:15px;color:#000}
-#welcomeBar{width:200px;height:4px;background:#eee;border-radius:10px;margin-top:20px;overflow:hidden}
-#welcomeBarInner{height:100%;width:0%;background:#00ff88;transition:width.1s linear}
-header{padding:14px 4%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;background:#070708;border-bottom:1px solid #1e1e24}
-.logo{font-weight:900;line-height:.9}.logo i{color:#666;font-size:.65rem;display:block;font-style:normal;margin-top:3px;letter-spacing:1px}
-.ticket-btn{background:#00ff88;color:#000;border:0;padding:11px 20px;border-radius:22px;font-weight:900;font-size:.9rem;cursor:pointer;box-shadow:0 0 18px rgba(0,255,136,.4)}
-.search-row{display:flex;gap:8px;padding:12px 4%;position:sticky;top:61px;background:#070708;z-index:99}
-.search-row input{flex:1;background:#151519;border:1px solid #2a2a32;color:#fff;padding:13px;border-radius:14px}
-.search-row select{background:#151519;border:1px solid #2a2a32;color:#fff;padding:13px 8px;border-radius:14px;max-width:105px}
-.grid{display:grid;grid-template-columns:1fr;gap:14px;padding:14px 4% 90px}
-.card{background:#1c1c20;border:1px solid #2a2a32;border-radius:26px;padding:18px}
-.badge{background:#00ff88;color:#000;padding:6px 11px;border-radius:20px;font-size:.68rem;font-weight:900}
-.pref{font-size:3.3rem;font-weight:900;margin:10px 0;letter-spacing:-2px}
-.btns{display:flex;gap:9px;margin-top:12px}.btn{flex:1;padding:14px;border-radius:14px;font-weight:900;border:0;cursor:pointer;font-size:.85rem}.buy{background:#fff;color:#000}.det{background:#23232a;color:#fff;border:1px solid #3a3a44}
-#ticketOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99999;align-items:flex-end}
-#ticketOverlay.open{display:flex}
-#ticketSheet{width:100%;background:#151519;border:1px solid #2a2a32;border-top-left-radius:30px;border-top-right-radius:30px;padding:18px;max-height:90vh;display:flex;flex-direction:column}
-#detailsOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.90);z-index:99998;align-items:flex-end}
-#detailsOverlay.open{display:flex}
-#detailsSheet{width:100%;background:#121215;border:1px solid #2a2a32;border-top-left-radius:30px;border-top-right-radius:30px;padding:0;max-height:92vh;overflow:auto}
-#chatBox{flex:1;overflow:auto;background:#0a0a0b;border:1px solid #222;border-radius:16px;padding:12px;margin-top:12px;min-height:300px}
-.msg{margin-top:10px;padding:11px 13px;border-radius:14px;max-width:86%;font-size:.92rem;word-break:break-word}
-.msg-user{background:#232328;margin-left:auto}.msg-assistente{background:#122a1b;border:1px solid rgba(0,255,136,.3);color:#c2ffda}.msg-moderazione{background:#1a1f3d;border:1px solid #4a6cff;color:#c2d2ff}.msg-sistema{background:#1a1a1a;border:1px dashed #333;color:#888;font-size:.8rem;text-align:center;max-width:95%;margin:0 auto}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RINA BANK - Demo</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<div id="welcome"><h1>BENVENUTO</h1><p>XESTER VOIP</p><div id="welcomeCount">0</div><div id="welcomeBar"><div id="welcomeBarInner"></div></div></div>
-
-<header><div class="logo">XESTER VOIP<i>4205 PREFISSI</i></div><button id="openTicketBtn" class="ticket-btn">🎫 TICKET</button></header>
-
-<div class="search-row"><input id="search" placeholder="Cerca paese..."><select id="filterCountry"><option value="all">Tutti</option></select><select id="sort"><option value="price-asc">€ basso</option></select></div>
-
-<div class="grid" id="grid"></div>
-
-<div id="detailsOverlay"><div id="detailsSheet">
-<div style="position:sticky;top:0;background:#121215;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2a32;z-index:10"><b style="font-size:1.1rem">📱 SCHEDA PRODOTTO</b><button id="closeDetails" style="background:#23232a;color:#fff;border:1px solid #333;width:40px;height:40px;border-radius:50%;font-weight:900">X</button></div>
-<div id="detailsContent" style="padding:22px"></div>
-</div></div>
-
-<div id="ticketOverlay"><div id="ticketSheet">
-<div style="display:flex;justify-content:space-between;align-items:center"><div><b id="ticketId"></b><div style="color:#666;font-size:.7rem">Chat privata</div></div><div style="display:flex;gap:12px;align-items:center"><span style="color:#888;font-size:.85rem">Scade <b id="timer" style="color:#00ff88">10:00</b></span><button id="closeX" style="background:#23232a;color:#fff;border:1px solid #333;width:36px;height:36px;border-radius:50%;font-weight:900">X</button></div></div>
-<div id="chatBox"></div>
-<div style="display:flex;gap:8px;margin-top:12px"><input id="chatInput" placeholder="Scrivi..." style="flex:1;padding:15px;border-radius:14px;border:1px solid #333;background:#0a0a0b;color:#fff"><button id="sendBtn" style="padding:15px 22px;background:#00ff88;color:#000;border:0;border-radius:14px;font-weight:900">INVIA</button></div>
-</div></div>
-
-<script>
-const BOT_TOKEN="8871567340:AAETSRfITxqdBIeqDhzy8Ib54SVu90TO3Gk";
-const CHAT_ID="8102746350";
-function tgSend(t){return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent(t)}`).catch(()=>{});}
-function tgSendPanel(ticketId){
-  let text=`🎛️ PANNELLO AMMINISTRATIVO\nTicket: ${ticketId}\nGestisci qui sotto:`;
-  let keyboard={inline_keyboard:[[{text:"✅ Reclama Ticket",callback_data:`claim_${ticketId}`}],[{text:"❌ Cancella Ticket",callback_data:`delete_${ticketId}`}]]};
-  return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,text:text,reply_markup:keyboard})}).catch(()=>{});
-}
-function tgAnswerCallback(id,text){fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery?callback_query_id=${id}&text=${encodeURIComponent(text)}`).catch(()=>{});}
-
-const ALL=[["+234","Nigeria"],["+212","Marocco"],["+39","Italia"],["+44","UK"],["+49","Germania"],["+33","Francia"],["+1","USA"],["+91","India"],["+34","Spagna"],["+351","Portogallo"],["+90","Turchia"],["+31","Olanda"]];
-let products=[];for(let i=0;i<4205;i++){let p=ALL[i%ALL.length];products.push({uid:"XV-"+(10807+i),code:p[0],country:p[1],price:(0.89+Math.random()*3).toFixed(2)})}
-let sel=document.getElementById('filterCountry');
-[...new Set(products.map(p=>p.country))].sort().forEach(c=>{let o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
-
-function render(list){
-  let h="";
-  list.slice(0,120).forEach(x=>{
-    h+=`<div class="card"><div style="display:flex;justify-content:space-between"><span class="badge">VERIFICATO ✓ 5.0★</span><span style="color:#777">${x.country}</span></div><div class="pref">${x.code}</div><div style="color:#555;font-size:.72rem">ID: ${x.uid}</div><div style="margin-top:8px;font-size:1.8rem;font-weight:900">€${x.price}</div><div class="btns"><button class="btn buy" onclick="window.open('https://t.me/crocosupplyita?text=Ciao%20voglio%20${x.code}','_blank')">ACQUISTA</button><button class="btn det" onclick="openDetails('${x.uid}')">DETTAGLI</button></div></div>`
-  });
-  document.getElementById('grid').innerHTML=h;
-}
-function apply(){let q=document.getElementById('search').value.toLowerCase();let f=sel.value;render(products.filter(p=>(p.country.toLowerCase().includes(q)||p.code.includes(q))&&(f==='all'||p.country===f)));}
-document.getElementById('search').addEventListener('input',apply);
-sel.addEventListener('change',apply);
-render(products);
-
-window.openDetails=function(uid){
-  let p=products.find(a=>a.uid===uid); if(!p) return;
-  document.getElementById('detailsContent').innerHTML=`
-  <div style="background:#1c1c20;border:1px solid #2a2a32;border-radius:20px;padding:18px;margin-bottom:16px">
-    <div style="display:flex;justify-content:space-between;align-items:center"><span class="badge">PREMIUM • VERIFICATO ✓</span><span style="color:#00ff88;font-weight:900;font-size:1.1rem">${p.country}</span></div>
-    <div style="font-size:3.8rem;font-weight:900;margin:14px 0;letter-spacing:-2px">${p.code}</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><span style="background:#23232a;border:1px solid #333;padding:6px 12px;border-radius:20px;font-size:.75rem">ID: ${p.uid}</span><span style="background:#23232a;border:1px solid #333;padding:6px 12px;border-radius:20px;font-size:.75rem">5.0★ 482 vendite</span><span style="background:#122a1b;border:1px solid rgba(0,255,136,.3);color:#00ff88;padding:6px 12px;border-radius:20px;font-size:.75rem">● ONLINE</span></div>
-    <div style="margin-top:14px;font-size:2.2rem;font-weight:900">€${p.price} <span style="font-size:.9rem;color:#666;font-weight:400">/ 30 giorni</span></div>
-  </div>
-  <div style="color:#ddd;line-height:1.7;font-size:.95rem">
-    <h3 style="color:#fff;font-size:1.2rem;margin-bottom:8px">📱 COS'È QUESTO PRODOTTO?</h3>
-    <p style="color:#aaa;margin-bottom:18px">Questo è un <b style="color:#fff">numero VOIP reale ${p.country} con prefisso ${p.code}</b> fornito da XESTER VOIP. Non è un numero usa e getta fasullo. È un numero vero che riceve SMS reali in tempo reale tramite pannello web privato. Ideale per verifiche OTP, account secondari, business, privacy.</p>
-    <div style="background:#1c1c20;border-radius:16px;padding:16px;margin-bottom:18px">
-      <b style="color:#00ff88">✅ COMPATIBILITÀ TOTALE TESTATA:</b><br>
-      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">WhatsApp</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Telegram</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Google</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Facebook</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Instagram</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Tinder</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Discord</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Uber</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">Binance</span>
-        <span style="background:#23232a;padding:6px 10px;border-radius:10px;font-size:.8rem">TikTok</span>
-      </div>
+  <div class="app">
+    <div class="header">
+      <p class="demo-badge">MODALITÀ DEMO - SIMULAZIONE</p>
+      <h1 id="welcome">Benvenuto, Utente Demo</h1>
+      <p>Conto dimostrativo RINA BANK</p>
     </div>
-    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">⚙️ CARATTERISTICHE TECNICHE</h3>
-    <div style="background:#1c1c20;border-radius:16px;padding:16px;margin-bottom:18px;line-height:1.9;color:#bbb">
-      - 📡 Tipo: VOIP Non-VoIP alta reputazione<br>
-      - 🌍 Paese: ${p.country} - Prefisso: ${p.code}<br>
-      - ⏱️ Consegna: 2-5 minuti dopo pagamento<br>
-      - 📩 SMS: Illimitati per 30 giorni<br>
-      - 🔁 Rinnovo: Possibile a €${p.price}<br>
-      - 🔒 Privacy: Nessun dato salvato<br>
-      - 💻 Pannello: Accesso web privato SMS live<br>
-      - ♻️ Sostituzione: Gratis se non riceve nei primi 15 min<br>
-      - 📱 Multi-device: Pannello da telefono/PC<br>
-      - 🛡️ Anti-ban: Rotazione IP e trust-score alto
+
+    <div class="card">
+      <span>Saldo disponibile</span>
+      <h2 id="saldo">€ 4.234,46</h2>
+      <p>IBAN Demo: IT00 X000 0000 0000 0000</p>
     </div>
-    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">🚀 COME FUNZIONA? (3 STEP)</h3>
-    <div style="background:#1c1c20;border-radius:16px;padding:16px;margin-bottom:18px">
-      <b style="color:#fff">STEP 1 - Acquista:</b> <span style="color:#aaa">Clicchi ACQUISTA, vai su Telegram @crocosupplyita, paghi Crypto/PayPal/Postepay.</span><br><br>
-      <b style="color:#fff">STEP 2 - Ricevi:</b> <span style="color:#aaa">Ti inviamo in 2 minuti: numero ${p.code}, link pannello SMS, login.</span><br><br>
-      <b style="color:#fff">STEP 3 - Usa:</b> <span style="color:#aaa">Inserisci numero su WhatsApp/ecc, SMS arriva istantaneo sul pannello.</span>
+
+    <div class="buttons">
+      <button onclick="showSection('bonifico')">Invia Bonifico</button>
+      <button onclick="showSection('transazioni')">Transazioni Eseguite</button>
+      <button onclick="showSection('conto')">Conto Bancario</button>
     </div>
-    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">💬 RECENSIONI VERIFICATE</h3>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px">
-      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Marco R. ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Preso Nigeria +234, arrivato in 3 min, verificato WhatsApp al primo colpo."</span></div>
-      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Alex_92 ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Secondo numero che compro, sempre perfetti."</span></div>
-      <div style="background:#1c1c20;border-radius:14px;padding:12px;border-left:3px solid #00ff88"><b style="color:#fff">Sara B. ⭐⭐⭐⭐⭐</b><br><span style="color:#aaa;font-size:.85rem">"Usato per Tinder, funziona alla grande."</span></div>
+
+    <div id="bonifico" class="section hidden">
+      <h3>Invia Bonifico - DEMO</h3>
+      <input type="text" placeholder="IBAN destinatario">
+      <input type="number" placeholder="Importo €">
+      <button onclick="alert('Bonifico DEMO inviato! (finto)')">Conferma</button>
     </div>
-    <h3 style="color:#fff;font-size:1.2rem;margin:18px 0 8px">🛡️ GARANZIA XESTER</h3>
-    <p style="color:#aaa;margin-bottom:12px">Se non riceve OTP nei primi 15 minuti, <b style="color:#fff">sostituzione immediata gratis</b>. Supporto fino a verifica riuscita. 4205 numeri venduti, 98.7% successo.</p>
-    <div style="background:#2a1a1a;border:1px solid #552; border-radius:12px;padding:14px;color:#ff9a9a;font-size:.85rem;margin-bottom:18px">
-      <b>⚠️ IMPORTANTE:</b><br>
-      - Non usare per spam/truffe/illegale.<br>
-      - WhatsApp può bannare VOIP, rischio basso ma esiste.<br>
-      - Solo tu hai accesso al pannello.<br>
-      - Dopo 30 giorni scade se non rinnovi.
+
+    <div id="transazioni" class="section hidden">
+      <h3>Transazioni - DEMO</h3>
+      <ul>
+        <li>12/10/2026 - Spesa Market - € -45,20</li>
+        <li>11/10/2026 - Accredito - € +1.200,00</li>
+        <li>10/10/2026 - Bonifico Uscita - € -150,00</li>
+      </ul>
     </div>
-    <div style="background:#122a1b;border:1px solid rgba(0,255,136,.35);border-radius:14px;padding:14px;color:#c2ffda">
-      <b style="color:#00ff88">💡 CONSIGLIO PRO:</b> Per WhatsApp usa telefono secondario o emulatore. Chiedi nel ticket per aiuto.
+
+    <div id="conto" class="section">
+      <h3>Dettaglio Conto - DEMO</h3>
+      <p><strong>Intestatario:</strong> Utente Demo</p>
+      <p><strong>Saldo contabile:</strong> € 4.234,46</p>
+      <p><strong>Saldo disponibile:</strong> € 4.234,46</p>
     </div>
   </div>
-  <div style="position:sticky;bottom:0;background:#121215;padding-top:16px;margin-top:22px;border-top:1px solid #2a2a32">
-    <div style="display:flex;gap:10px">
-      <button class="btn buy" style="flex:1;padding:18px;font-size:1rem" onclick="window.open('https://t.me/crocosupplyita?text=Ciao%20voglio%20${p.code}%20${p.uid}%20${p.country}','_blank')">ACQUISTA ORA - €${p.price}</button>
-      <button class="btn det" style="padding:18px" onclick="document.getElementById('detailsOverlay').classList.remove('open')">CHIUDI</button>
-    </div>
-    <div style="text-align:center;color:#555;font-size:.7rem;margin-top:10px">Consegna media 3 minuti • Supporto 24/7</div>
-  </div>
-  `;
-  document.getElementById('detailsOverlay').classList.add('open');
-}
-document.getElementById('closeDetails').onclick=()=>document.getElementById('detailsOverlay').classList.remove('open');
-document.getElementById('detailsOverlay').addEventListener('click',e=>{if(e.target.id==='detailsOverlay')document.getElementById('detailsOverlay').classList.remove('open');});
-
-// LOADING 0-250
-let countEl=document.getElementById('welcomeCount'); let barEl=document.getElementById('welcomeBarInner'); let welcomeEl=document.getElementById('welcome'); let c=0;
-let loader=setInterval(()=>{ c+=5; if(c>250)c=250; countEl.innerText=c; barEl.style.width=(c/250*100)+"%"; if(c>=250){ clearInterval(loader); setTimeout(()=>{welcomeEl.style.transition="all.6s ease";welcomeEl.style.opacity="0";welcomeEl.style.transform="translateY(-20px)";setTimeout(()=>{welcomeEl.style.display="none";},600);},400);} },18);
-
-// TICKET SYSTEM FIX DOPPIO MESSAGGIO + CARD FOTO
-let interval=null,timeout=null,remaining=600,ticketId=null,lastUpdateId=0,poll=null;
-const STORAGE_KEY="xester_current_ticket";
-function getTicketData(id){try{return JSON.parse(localStorage.getItem('ticket_'+id))}catch(e){return null}}
-function saveTicket(){if(!ticketId)return;localStorage.setItem('ticket_'+ticketId,JSON.stringify({id:ticketId,remaining:remaining,html:document.getElementById('chatBox').innerHTML,lastUpdateId:lastUpdateId,time:Date.now()}));localStorage.setItem(STORAGE_KEY,ticketId);}
-function loadCurrentTicket(){try{let curId=localStorage.getItem(STORAGE_KEY);if(!curId)return null;let d=getTicketData(curId);if(!d)return null;let passed=Math.floor((Date.now()-d.time)/1000);d.remaining=Math.max(0,d.remaining-passed);if(d.remaining<=1){localStorage.removeItem('ticket_'+curId);localStorage.removeItem(STORAGE_KEY);return null;}return d;}catch(e){return null}}
-function addMsg(who,text,cls){let b=document.getElementById('chatBox');let div=document.createElement('div');div.className='msg msg-'+cls;div.innerHTML=`<b>${who}</b><br>${text}`;b.appendChild(div);b.scrollTop=b.scrollHeight;saveTicket();}
-function startTimer(){clearInterval(interval);clearTimeout(timeout);interval=setInterval(()=>{remaining--;let m=Math.floor(remaining/60),s=remaining%60;document.getElementById('timer').innerText=`${m}:${String(s).padStart(2,'0')}`;if(remaining<=0){tgSend(`❌ Ticket ${ticketId} cancellato per scadenza`);localStorage.removeItem('ticket_'+ticketId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);}saveTicket();},1000);timeout=setTimeout(()=>{localStorage.removeItem('ticket_'+ticketId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);},remaining*1000);}
-function closeTicket(force){document.getElementById('ticketOverlay').classList.remove('open');clearInterval(interval);clearTimeout(timeout);clearInterval(poll);if(force){if(ticketId)localStorage.removeItem('ticket_'+ticketId);localStorage.removeItem(STORAGE_KEY);document.getElementById('chatBox').innerHTML="";ticketId=null;remaining=600;}else{saveTicket();}}
-async function initLastUpdateId(){try{let res=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`);let data=await res.json();if(data.result&&data.result.length>0){lastUpdateId=data.result[data.result.length-1].update_id;}}catch(e){}}
-
-// FUNZIONE FIXATA - NO DOPPIO MESSAGGIO + FOTO TICKET
-function startPolling(){
-  clearInterval(poll);
-  const processedIds=new Set();
-  let ticketClaimed=false;
-  poll=setInterval(async()=>{
-    try{
-      let res=await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates?offset=${lastUpdateId+1}&timeout=1`);
-      let data=await res.json();if(!data.result)return;
-      for(let u of data.result){
-        lastUpdateId=u.update_id;
-        if(u.callback_query){
-          let cb=u.callback_query;let cdata=cb.data||"";let cbId=cb.id;
-          let tId=cdata.replace('claim_','').replace('delete_','');
-          if(ticketClaimed && cdata.startsWith('claim_')){
-            tgAnswerCallback(cbId,"Già reclamato ✅");
-            continue;
-          }
-          if(cdata.startsWith('claim_')){
-            if(ticketId&&tId===ticketId &&!ticketClaimed){
-              ticketClaimed=true;
-              addMsg("Moderazione","✅ Uno staff ha preso in gestione il tuo ticket. Un operatore ti risponderà a breve. Ticket: "+tId,"moderazione");
-              let chatBox=document.getElementById('chatBox');
-              let ticketCard=document.createElement('div');
-              ticketCard.innerHTML=`<div style="background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;border-radius:16px;padding:14px;margin-top:12px;text-align:center;font-weight:900"><div style="font-size:1.1rem">🎫 TICKET IN GESTIONE</div><div style="font-size:.9rem;margin-top:4px;background:rgba(0,0,0,.15);padding:6px;border-radius:10px">${tId}</div><div style="font-size:.75rem;margin-top:6px;font-weight:600">Staff assegnato - Risposta entro 2 min</div></div>`;
-              chatBox.appendChild(ticketCard);
-              chatBox.scrollTop=chatBox.scrollHeight;
-              tgAnswerCallback(cbId,"Ticket reclamato ✅");
-              tgSend(`✅ Ticket ${tId} reclamato - IN GESTIONE`);
-              fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:CHAT_ID,message_id:cb.message.message_id,text:`🎛️ PANNELLO\nTicket: ${tId}\nStato: 🟢 IN GESTIONE DA TE\nCliente ha ricevuto conferma + card`,reply_markup:{inline_keyboard:[[{text:"❌ Cancella Ticket",callback_data:`delete_${tId}`}]]}})}).catch(()=>{});
-              saveTicket();
-            }
-          }
-          if(cdata.startsWith('delete_')){
-            if(ticketId&&tId===ticketId){
-              addMsg("Sistema",`Ticket ${tId} cancellato da un amministratore.`,"sistema");
-              setTimeout(()=>{localStorage.removeItem('ticket_'+tId);localStorage.removeItem(STORAGE_KEY);closeTicket(true);},1200);
-              tgAnswerCallback(cbId,"Ticket cancellato ❌");
-              tgSend(`❌ Ticket ${tId} cancellato da pannello admin`);
-            }
-          }
-          continue;
-        }
-        if(u.message&&String(u.message.chat.id)===String(CHAT_ID)&&u.message.text){
-          let txt=(u.message.text||"").trim();let msgId=u.message.message_id;
-          if(processedIds.has(msgId))continue;processedIds.add(msgId);if(!txt)continue;
-          if(txt.includes('🎛️')||txt.includes('PANNELLO')||txt.includes('🎫')||txt.includes('NUOVO TICKET')||txt.includes('👤 Cliente:')||txt.includes('cancellato')||txt.includes('reclamato'))continue;
-          if(txt.startsWith('/'))continue;
-          addMsg("Assistente",txt,"assistente");
-        }
-      }
-      saveTicket();
-    }catch(e){}
-  },2000);
-}
-
-async function openTicket(){
-  let saved=loadCurrentTicket();
-  if(saved){ticketId=saved.id;remaining=saved.remaining;lastUpdateId=saved.lastUpdateId||0;document.getElementById('ticketId').innerText=ticketId;document.getElementById('chatBox').innerHTML=saved.html;}
-  else{await initLastUpdateId();ticketId="XV-TICKET-"+Math.floor(Math.random()*90000+10000);remaining=600;document.getElementById('ticketId').innerText=ticketId;document.getElementById('chatBox').innerHTML="";addMsg("Sistema",`Ticket ${ticketId} aperto. Chat privata fino a 10 min.`,"sistema");tgSend(`🎫 NUOVO TICKET ${ticketId}\nCliente ha aperto ticket.`);tgSendPanel(ticketId);}
-  document.getElementById('ticketOverlay').classList.add('open');startTimer();startPolling();saveTicket();
-}
-document.getElementById('openTicketBtn').onclick=openTicket;
-document.getElementById('closeX').onclick=()=>closeTicket(false);
-document.getElementById('ticketOverlay').addEventListener('click',e=>{if(e.target.id==='ticketOverlay')closeTicket(false);});
-document.getElementById('sendBtn').onclick=()=>{let i=document.getElementById('chatInput');let t=i.value.trim();if(!t||!ticketId)return;addMsg("Tu",t,"user");tgSend(`🎫 ${ticketId}\n👤 Cliente: ${t}`);i.value="";};
-document.getElementById('chatInput').addEventListener('keypress',e=>{if(e.key==='Enter')document.getElementById('sendBtn').click();});
-</script>
+  <script src="script.js"></script>
 </body>
 </html>
